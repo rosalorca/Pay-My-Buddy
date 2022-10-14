@@ -7,27 +7,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "transfer")
+@Table(name = "Account")
 @Data
-public class Transfer {
-
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "transferId")
-    private int transferId;
+    @Column(name = "accountId")
+    private int accountId;
 
-    @Column(name = "user1_Id")
-    private int user1_Id;
+    @Column(name = "userId")
+    private int userId;
 
-    @Column(name = "user2_Id")
-    private int user2_Id;
+    @Column(name = "balance")
+    private int balance;
 
-    @Column(name = "amount")
-    private int amount;
-
+   // @OneToOne
 
 }

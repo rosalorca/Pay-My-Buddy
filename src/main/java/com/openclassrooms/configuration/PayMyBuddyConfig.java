@@ -21,10 +21,10 @@ public class PayMyBuddyConfig extends WebSecurityConfigurerAdapter {
 
          */
         auth.inMemoryAuthentication()
-                .withUser("springuser").password(passwordEncoder().encode("spring123"))
+                .withUser("Buddy_user").password(passwordEncoder().encode("user1234"))
                 .roles("USER")
                 .and()
-                .withUser("springadmin").password(passwordEncoder().encode("admin123"))
+                .withUser("Buddy_admin").password(passwordEncoder().encode("admin1234"))
                 .roles("ADMIN", "USER");
     }
 
