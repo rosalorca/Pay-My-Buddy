@@ -23,14 +23,14 @@ public class Operation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "operationId")
-    private int transferId;
+    @Column(name = "operation_id")
+    private int transfer_id;
 
-    @Column(name = "user1_id")
-    private int user1_Id;
+    @Column(name = "account1_id")
+    private int account1_id;
 
-    @Column(name = "user2_id")
-    private int user2_Id;
+    @Column(name = "account2_id")
+    private int account2_id;
 
     @Column(name = "amount")
     private int amount;
@@ -43,13 +43,19 @@ public class Operation {
             }
     )
     @JoinTable(
-            name = "operation_user",
-            joinColumns = @JoinColumn(name = "userId")
-    )
-    private List<User> users = new ArrayList<>();
-
-   @ManyToMany(
-            mappedBy = "users"
+            name = "operation_account",
+            joinColumns = @JoinColumn(name = "account1_id"),
+            inverseJoinColumns = @JoinColumn(name = "account2_id")
     )
     private List<Account> accounts = new ArrayList<>();
+
+    public void addAccount(Account account) {
+        accounts.add(account);
+        account.getOperations().add(this);
+    }
+
+    public void removeAccount(Account account) {
+        accounts.remove(account);
+        account.getOperations().remove(this);
+    }
 }

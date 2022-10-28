@@ -15,7 +15,7 @@ public class AccountService {
     public Iterable<Account> getAccounts(){
         return accountRepository.findAll();
     }
-    public Optional<Account> getAccountsById (Integer id){
+   /* public Optional<Account> getAccountsById (Integer id){
         return accountRepository.findById(id);
-    }
+    }*/
 }

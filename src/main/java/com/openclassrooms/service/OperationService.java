@@ -15,8 +15,8 @@ public class OperationService {
     public Iterable<Operation> getOperations(){
         return operationRepository.findAll();
     }
-    public Optional<Operation> getOperationsById (Integer id){
+    /*public Optional<Operation> getOperationsById (Integer id){
         return operationRepository.findById(id);
-    }
+    }*/
 
 }

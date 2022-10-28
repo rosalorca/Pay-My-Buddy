@@ -32,11 +32,12 @@ public class PayMyBuddyApplication implements CommandLineRunner {
 	@Override
 	@Transactional
 	public void run(String... args) throws Exception {
-		Iterable<User> users = userService.getUsers();
+		/*Iterable<User> users = userService.getUsers();
 		users.forEach(user -> System.out.println(user.getUserId()));
 		Optional<User> optUser = userService.getUsersById(1);
+		optUser.ifPresentOrElse((user -> ));
 		User userId1 = optUser.get();
-		userId1.getName();
+		String name = userId1.getName();
 
 		Iterable<Operation> operations = operationService.getOperations();
 		operations.forEach(operation -> operation.getTransferId());
@@ -48,7 +49,7 @@ public class PayMyBuddyApplication implements CommandLineRunner {
 		accounts.forEach(account -> account.getBalance());
 		Optional<Account> optAccount = accountService.getAccountsById(1);
 		Account accountId1 = optAccount.get();
-		accountId1.getBalance();
+		accountId1.getBalance();*/
 
 
 	}

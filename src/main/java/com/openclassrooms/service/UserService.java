@@ -16,8 +16,8 @@ public class UserService {
     public Iterable<User> getUsers (){
         return userRepository.findAll();
     }
-    public Optional<User> getUsersById(Integer id){
+    /*public Optional<User> getUsersById(Integer id){
         return userRepository.findById(id);
 
-    }
+    }*/
 }
