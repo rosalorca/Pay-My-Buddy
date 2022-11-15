@@ -1,6 +1,8 @@
 package com.openclassrooms.model;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +21,8 @@ import java.util.List;
 @Entity
 @Table(name = "user")
 @Data
+@DynamicUpdate
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

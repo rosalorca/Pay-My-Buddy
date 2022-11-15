@@ -1,6 +1,8 @@
 package com.openclassrooms.model;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.FetchType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +20,7 @@ import java.util.List;
 @Entity
 @Table(name = "Operation")
 @Data
+@DynamicUpdate
 public class Operation {
 
     @Id
@@ -35,11 +38,12 @@ public class Operation {
     @Column(name = "amount")
     private int amount;
 
-   @ManyToMany(
+    @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
-                    CascadeType.MERGE
+                    CascadeType.MERGE,
+                    CascadeType.REMOVE
             }
     )
     @JoinTable(

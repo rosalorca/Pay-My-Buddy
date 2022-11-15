@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>PayMyBuddy</title>
+</head>
+<body>
+
+<div align="center">
+    <h1> PayMyBuddy </h1>
+    <table border ="1">
+        <thead>
+        <tr>
+            <th> User mail</th>
+            <th> User Password</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${listUser}">
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.password}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

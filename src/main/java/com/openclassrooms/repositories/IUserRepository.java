@@ -1,9 +1,10 @@
 package com.openclassrooms.repositories;
 
-import com.openclassrooms.model.Operation;
+
+import com.openclassrooms.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OperationRepository extends CrudRepository<Operation, Integer> {
+public interface IUserRepository extends CrudRepository<User, Integer> {
 }
