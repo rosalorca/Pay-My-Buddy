@@ -1,5 +1,6 @@
 package com.openclassrooms.controllers;
 
+import com.openclassrooms.model.User;
 import com.openclassrooms.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class UserController {
 
     @GetMapping("/ ")
     public String viewHomePage (Model model){
-     //   model.addAllAttributes("listUsers", userService.getUsers());
+        model.addAllAttributes("listUsers", userService.getUsers());
         return "index";
     }
 
