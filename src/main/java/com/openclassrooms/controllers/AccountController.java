@@ -6,15 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AccountController {
 
-    @GetMapping("/ index")
+    @GetMapping("/index")
     public String goHome(){
         return "index";
     }
-    @GetMapping("/ login")
-    public String login(){
-        return "login";
-    }
-    @GetMapping("/ logout")
+    @GetMapping("/logout")
     public String logout(){
         return "login";
     }

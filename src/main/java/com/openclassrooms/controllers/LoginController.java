@@ -1,6 +1,6 @@
 package com.openclassrooms.controllers;
 
-import com.openclassrooms.repositories.IUserRepository;
+import com.openclassrooms.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.User;
@@ -24,7 +24,7 @@ import java.util.Map;
 public class LoginController {
 
     @Autowired
-    private IUserRepository userRepository;
+    private UserRepository userRepository;
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
 
     public LoginController(org.springframework.security.oauth2.client.OAuth2AuthorizedClientService oAuth2AuthorizedClientService) {
@@ -106,29 +106,5 @@ public class LoginController {
         }
         return null;
     }
-    @GetMapping("400")
-    public ModelAndView error400() {
-        ModelAndView mav = new ModelAndView();
-        String errorMessage= "You are not authorized for the requested .";
-        mav.addObject("errorMsg", errorMessage);
-        mav.setViewName("400");
-        return mav;
-    }
 
-    @GetMapping("403")
-    public ModelAndView error403() {
-        ModelAndView mav = new ModelAndView();
-        String errorMessage= "You are not authorized for the requested data.";
-        mav.addObject("errorMsg", errorMessage);
-        mav.setViewName("403");
-        return mav;
-    }
-    @GetMapping("404")
-    public ModelAndView error404() {
-        ModelAndView mav = new ModelAndView();
-        String errorMessage= "You have to enter good request please.";
-        mav.addObject("errorMsg", errorMessage);
-        mav.setViewName("404");
-        return mav;
-    }
 }

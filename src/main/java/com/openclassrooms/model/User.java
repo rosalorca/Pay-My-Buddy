@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,18 +29,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int user_id;
-
+    @NotBlank(message = "Firstname is mandatory")
     @Column(name = "firstname")
     private String name;
 
+    @NotBlank(message = "Lastname is mandatory")
     @Column(name = "lastname")
     private String lastname;
 
+    @NotBlank(message = "E-mail is mandatory")
     @Column(name = "email")
     private String email;
 
+    @NotBlank(message = "Password is mandatory")
     @Column(name = "password")
-    private int password;
+    private String password;
 
     @ManyToMany(
             fetch = FetchType.LAZY,
@@ -79,4 +83,4 @@ public class User {
     }
 
 
-}
+  }

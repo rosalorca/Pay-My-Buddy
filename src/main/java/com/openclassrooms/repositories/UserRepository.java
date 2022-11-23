@@ -5,7 +5,12 @@ import com.openclassrooms.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public interface IUserRepository extends CrudRepository<User, Integer> {
-    User findByUserName(String userName);
+public interface UserRepository extends CrudRepository<User, Integer> {
+
+    List<User> findAll();
+    User findById(int id);
+    User save (User user);
 }

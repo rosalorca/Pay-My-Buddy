@@ -28,7 +28,6 @@ public class Operation {
 
     @Column(name = "operation_id")
     private int transfer_id;
-
     @Column(name = "account1_id")
     private int account1_id;
 
@@ -37,6 +36,12 @@ public class Operation {
 
     @Column(name = "amount")
     private int amount;
+
+    @Column(name = "operation_time")
+    private long operation_date;
+
+    @Column(name = "operation_description")
+    private String operation_description;
 
     @ManyToMany(
             fetch = FetchType.LAZY,

@@ -1,16 +1,16 @@
 package com.openclassrooms.service;
 
 import com.openclassrooms.model.User;
-import com.openclassrooms.repositories.IUserRepository;
+import com.openclassrooms.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public abstract class UserService {
+public class UserService {
     @Autowired
-    private IUserRepository userRepository;
+    private UserRepository userRepository;
 
 
     public Iterable<User> getUsers() {
