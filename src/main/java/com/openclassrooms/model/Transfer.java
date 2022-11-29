@@ -3,10 +3,10 @@ package com.openclassrooms.model;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.FetchType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,19 +14,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Operation")
+@Table(name = "Transfer")
 @Data
 @DynamicUpdate
-public class Operation {
+public class Transfer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "operation_id")
+    @Column(name = "transfer_id")
     private int transfer_id;
     @Column(name = "account1_id")
     private int account1_id;
@@ -35,12 +34,12 @@ public class Operation {
     private int account2_id;
 
     @Column(name = "amount")
-    private int amount;
+    private double amount;
 
-    @Column(name = "operation_time")
+    @Column(name = "transfer_time")
     private long operation_date;
 
-    @Column(name = "operation_description")
+    @Column(name = "transfer_description")
     private String operation_description;
 
     @ManyToMany(
@@ -52,11 +51,13 @@ public class Operation {
             }
     )
     @JoinTable(
-            name = "operation_account",
+            name = "transfer_account",
             joinColumns = @JoinColumn(name = "account1_id"),
-            inverseJoinColumns = @JoinColumn(name = "account2_id")
+            inverseJoinColumns = {@JoinColumn(name = "account2_id")}
+                   /* @JoinColumn(name = "operation_description"),
+                    @JoinColumn(name = "operation_time")}*/
     )
-    private List<Account> accounts = new ArrayList<>();
+    private List<Account> accounts;
 
     public void addAccount(Account account) {
         accounts.add(account);

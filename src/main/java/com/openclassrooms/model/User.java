@@ -16,7 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,13 +28,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int user_id;
-    @NotBlank(message = "Firstname is mandatory")
-    @Column(name = "firstname")
-    private String name;
-
-    @NotBlank(message = "Lastname is mandatory")
-    @Column(name = "lastname")
-    private String lastname;
 
     @NotBlank(message = "E-mail is mandatory")
     @Column(name = "email")
@@ -44,6 +36,15 @@ public class User {
     @NotBlank(message = "Password is mandatory")
     @Column(name = "password")
     private String password;
+
+    @NotBlank(message = "Firstname is mandatory")
+    @Column(name = "firstname")
+    private String name;
+
+    @NotBlank(message = "Lastname is mandatory")
+    @Column(name = "lastname")
+    private String lastname;
+
 
     @ManyToMany(
             fetch = FetchType.LAZY,
@@ -57,7 +58,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user1_id"),
             inverseJoinColumns = @JoinColumn(name = "user2_id")
     )
-    private List<User> friends = new ArrayList<>();
+    private List<User> friendList;
 
     @OneToMany(
             cascade = CascadeType.ALL,
@@ -65,22 +66,17 @@ public class User {
             fetch = FetchType.EAGER
     )
     @JoinColumn(name = "user_id")
-    private List<Account> accounts = new ArrayList<>();
+    private List<Account> accountList;
 
 
-    public int getUserId(){
+    public int getUserId() {
         return user_id;
     }
 
-    public void addFriend(User user){
-        friends.add(user);
-        user.getFriends().add(this);
-    }
-
-    public void removeFriend(User user){
-        friends.remove(user);
-        user.getFriends().remove(this);
+    public List<Transfer> getTransactionList() {
+        return getTransactionList();
     }
 
 
-  }
+
+}

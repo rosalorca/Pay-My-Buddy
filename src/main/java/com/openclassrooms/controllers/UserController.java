@@ -36,16 +36,11 @@ public class UserController {
         return "user/list";
     }
 
-    @GetMapping("/user/add")
-    public String addUser(User user) {
-        return "user/add";
-    }
-
     @PostMapping("/user/validate")
     public String validate(@Valid User user, BindingResult result, Model model) {
         if (!result.hasErrors()) {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            // user.setPassword(encoder.encode());
+            user.setPassword(encoder.encode(user.getPassword()));
             userRepository.save(user);
             model.addAttribute("user", userRepository.findAll());
             return "redirect:/user/list";
@@ -56,7 +51,7 @@ public class UserController {
     @GetMapping("/user/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        user.setPassword("34");
+        user.setPassword("abcd1234");
         model.addAttribute("user", user);
         return "user/update";
     }
@@ -69,7 +64,7 @@ public class UserController {
         }
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        // user.setPassword(encoder.encode(user.getPassword()));
+        user.setPassword(encoder.encode(user.getPassword()));
         user.setUser_id(user.getUser_id());
         userRepository.save(user);
         model.addAttribute("user", userRepository.findAll());

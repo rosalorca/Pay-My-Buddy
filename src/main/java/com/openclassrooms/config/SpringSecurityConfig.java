@@ -1,4 +1,4 @@
-package com.openclassrooms.configuration;
+package com.openclassrooms.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,15 +11,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure (AuthenticationManagerBuilder auth) throws Exception{
-
-        /*
-        auth.jdbcAuthentication() ----> pour connecter la base de donnée !
-
-         */
         auth.inMemoryAuthentication()
                 .withUser("user").password(passwordEncoder().encode("user1234"))
                 .roles("USER")

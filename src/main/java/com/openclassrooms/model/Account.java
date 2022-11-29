@@ -32,23 +32,23 @@ public class Account {
     private int user_id;
 
     @Column(name = "balance")
-    private int balance;
+    private double balance;
 
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
-    @JoinColumn(name = "operation_id")
-    List<Operation> operations = new ArrayList<>();
+    @JoinColumn(name = "transfer_id")
+    List<Transfer> operations = new ArrayList<>();
 
-    public void addOperation(Operation operation) {
-        operations.add(operation);
-        operation.getAccounts().add(this);
+    public void addTransfer(Transfer transfer) {
+        operations.add(transfer);
+        transfer.getAccounts().add(this);
     }
 
-    public void removeOperation(Operation operation) {
-        operations.remove(operation);
-        operation.getAccounts().remove(this);
+    public void removeTransfer(Transfer transfer) {
+        operations.remove(transfer);
+        transfer.getAccounts().remove(this);
     }
 
 }

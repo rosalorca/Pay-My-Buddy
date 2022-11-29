@@ -24,4 +24,13 @@ public class AccountService {
     public void deleteAccountById (Integer id){
         accountRepository.deleteById(id);
     }
+  /*  public void addAccount(Account account) {
+        accounts.add(account);
+        account.getOperations().add(this);
+    }
+
+    public void removeAccount(Account account) {
+        accounts.remove(account);
+        account.getOperations().remove(this);
+    }*/
 }

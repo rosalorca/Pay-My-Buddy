@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title> PayMyBuddy </title>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css" >
+
+</head>
+<body>
+<h2> PAY MY BUDDY </h2>
+<section class="my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h2> Welcome your application </h2>
+                <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
+                <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="file" name="image" accept="image/P6_pmb" class="form-control-file">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload image</button>
+                </form>
+                <span th:if="${msg != null}" th:text="${msg}"></span>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
