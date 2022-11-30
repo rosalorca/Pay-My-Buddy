@@ -3,7 +3,6 @@ package com.openclassrooms.service;
 import com.openclassrooms.model.Transfer;
 import com.openclassrooms.model.User;
 import com.openclassrooms.repositories.TransferRepository;
-import com.openclassrooms.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +12,6 @@ import java.util.Optional;
 public class TransferService {
     @Autowired
     private TransferRepository transferRepository;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UserRepository userRepository;
 
 
     public Iterable<Transfer> getAllTransactions() {
@@ -27,7 +22,7 @@ public class TransferService {
         return transferRepository.findById(id);
     }
 
-    public Transfer saveTransaction(Transfer operation) {
+    public Transfer createTransaction(Transfer operation) {
         return transferRepository.save(operation);
     }
 

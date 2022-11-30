@@ -21,16 +21,19 @@ public class AccountService {
     public Account saveAccount (Account account){
         return accountRepository.save(account);
     }
-    public void deleteAccountById (Integer id){
-        accountRepository.deleteById(id);
+
+    public void updateAccount (Account account){
+        Optional<Account> modified = accountRepository.findById(account.getAccount_id());
+        if(modified.isPresent()){
+            accountRepository.save(account);
+        }
     }
-  /*  public void addAccount(Account account) {
-        accounts.add(account);
-        account.getOperations().add(this);
+    public void deleteAccount (Account account){
+        Optional<Account> removerAccount = accountRepository.findById(account.getAccount_id());
+        if (removerAccount.isPresent()){
+            accountRepository.deleteById(account.getAccount_id());
+        }
+        accountRepository.deleteById(account.getAccount_id());
     }
 
-    public void removeAccount(Account account) {
-        accounts.remove(account);
-        account.getOperations().remove(this);
-    }*/
 }

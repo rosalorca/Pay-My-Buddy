@@ -7,9 +7,10 @@ import org.springframework.ui.Model;
 @Controller
 public class HomeController {
 
-    @RequestMapping("/")
-    public String home(Model model)
-    {
+    @RequestMapping("/home")
+    public String home (Model model){
+        model.addAttribute("message", "Welcome to your application PAy My Buddy ! ");
+
         return "home";
     }
    /* @RequestMapping("/admin/home")
