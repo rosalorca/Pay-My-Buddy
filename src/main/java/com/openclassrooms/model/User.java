@@ -27,7 +27,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int user_id;
+    private Integer userId;
 
     @NotBlank(message = "E-mail is mandatory")
     @Column(name = "email")
@@ -54,7 +54,7 @@ public class User {
             }
     )
     @JoinTable(
-            name = "user_friends",
+            name = "myFriendList",
             joinColumns = @JoinColumn(name = "user1_id"),
             inverseJoinColumns = @JoinColumn(name = "user2_id")
     )
@@ -70,10 +70,10 @@ public class User {
 
 
     public int getUserId() {
-        return user_id;
+        return userId;
     }
 
-    public List<Transfer> getTransactionList() {
+    public List<Transaction> getTransactionList() {
         return getTransactionList();
     }
 

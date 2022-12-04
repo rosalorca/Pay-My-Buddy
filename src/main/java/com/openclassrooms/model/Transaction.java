@@ -20,18 +20,18 @@ import java.util.List;
 @Table(name = "Transfer")
 @Data
 @DynamicUpdate
-public class Transfer {
+public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "transfer_id")
-    private int transfer_id;
+    @Column(name = "transaction_id")
+    private Integer transId;
     @Column(name = "account1_id")
-    private int account1_id;
+    private int account1Id;
 
     @Column(name = "account2_id")
-    private int account2_id;
+    private int account2Id;
 
     @Column(name = "amount")
     private double amount;
@@ -51,7 +51,7 @@ public class Transfer {
             }
     )
     @JoinTable(
-            name = "transfer_account",
+            name = "transaction_account",
             joinColumns = @JoinColumn(name = "account1_id"),
             inverseJoinColumns = {@JoinColumn(name = "account2_id")}
                    /* @JoinColumn(name = "operation_description"),

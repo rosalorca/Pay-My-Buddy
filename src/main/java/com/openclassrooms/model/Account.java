@@ -26,10 +26,10 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "account_id")
-    private int account_id;
+    private int accountId;
 
     @Column(name = "user_id")
-    private int user_id;
+    private int userId;
 
     @Column(name = "balance")
     private double balance;
@@ -39,14 +39,14 @@ public class Account {
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     @JoinColumn(name = "transfer_id")
-    List<Transfer> operations = new ArrayList<>();
+    List<Transaction> operations = new ArrayList<>();
 
-    public void addTransfer(Transfer transfer) {
+    public void addTransfer(Transaction transfer) {
         operations.add(transfer);
         transfer.getAccounts().add(this);
     }
 
-    public void removeTransfer(Transfer transfer) {
+    public void removeTransfer(Transaction transfer) {
         operations.remove(transfer);
         transfer.getAccounts().remove(this);
     }

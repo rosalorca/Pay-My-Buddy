@@ -5,78 +5,85 @@ import com.openclassrooms.repositories.UserRepository;
 import com.openclassrooms.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.validation.Valid;
 
 @Controller
 @Slf4j
 public class UserController {
     @Autowired
     private UserService userService;
-
-  /*  @GetMapping("/ ")
-    public String viewHomePage (Model model){
-       // model.addAllAttributes("listUsers", userService.getUsers());
-        return "index";
-    }*/
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping("/user/list")
+    @RequestMapping("/user")
     public String home(Model model) {
         model.addAttribute("user", userRepository.findAll());
-        return "user/list";
+        return "user";
     }
 
-    @PostMapping("/user/validate")
-    public String validate(@Valid User user, BindingResult result, Model model) {
-        if (!result.hasErrors()) {
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            user.setPassword(encoder.encode(user.getPassword()));
-            userRepository.save(user);
-            model.addAttribute("user", userRepository.findAll());
-            return "redirect:/user/list";
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllUsers() {
+        log.info("Success find all users");
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUserById(@PathVariable("userId") int id) {
+        if (userService.getUserById(id).isPresent()) {
+            User user = userService.getUserById(id).get();
+            log.info("Success find user by id");
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
-        return "user/add";
+        log.error("Can't find the user based on this id");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @GetMapping("/user/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        user.setPassword("abcd1234");
-        model.addAttribute("user", user);
-        return "user/update";
-    }
-
-    @PostMapping("/user/update/{id}")
-    public String updateUser(@PathVariable("id") Integer id, User user,
-                             BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "user/update";
+    @PostMapping
+    public ResponseEntity<?> createUser(@RequestBody User user) {
+        if (userService.getUserByEmail(user.getEmail()).isEmpty()) {
+            userService.createUser(user);
+            log.info("User created successfully", user.getEmail());
+            return new ResponseEntity<>("User Created", HttpStatus.CREATED);
         }
-
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setPassword(encoder.encode(user.getPassword()));
-        user.setUser_id(user.getUser_id());
-        userRepository.save(user);
-        model.addAttribute("user", userRepository.findAll());
-        return "redirect:/user/list";
+        return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable("id") Integer id, Model model) {
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        userRepository.delete(user);
-        model.addAttribute("user", userRepository.findAll());
-        return "redirect:/user/list";
-
+    @PutMapping("/userId")
+    public ResponseEntity<?> updateUser(@PathVariable("userId") int id, @RequestBody User user) {
+        if (userService.getUserById(id).isPresent()) {
+            user.setUserId(id);
+            userService.updateUser(user);
+            log.info("User updated successfully");
+            return new ResponseEntity<>("User updated", HttpStatus.OK);
+        }
+        log.error("Failed to update user because the user was not found");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
+    @DeleteMapping("/userId")
+    public ResponseEntity<?> deleteUser(@PathVariable("userId") int id, @RequestBody User user) {
+        if (userService.getUserById(id).isPresent()) {
+            userService.deleteUser(user);
+            log.info("User deleted successfully");
+            return new ResponseEntity<>("User deleted", HttpStatus.OK);
+        }
+        log.error("Failed to delete user because of a BAD REQUEST");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+  /*  @PutMapping("/myFriendList/{userId}/addFriend")
+    public ResponseEntity<?> addFriend (@PathVariable ("userId"), int id, @RequestBody User friend){
+
+    }*/
+
+
 }

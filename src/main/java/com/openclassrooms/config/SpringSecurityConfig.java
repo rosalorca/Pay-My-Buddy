@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
-    protected void configure (AuthenticationManagerBuilder auth) throws Exception{
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("user").password(passwordEncoder().encode("user1234"))
                 .roles("USER")
@@ -24,21 +24,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(HttpSecurity http) throws Exception{
+    public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/user").hasRole("USER")
-                .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin()
-                .and()
-                .oauth2Login();//  ---> oauth2login()
+                .antMatchers("/home", "/transaction", "/bank", "/profile", "contact", "/saveContact", "/saveOperation", "/saveTransfer")
+                .hasRole("USER");
+
+        http.authorizeRequests().antMatchers("/user/registration", "/login")
+                .permitAll();
 
 
     }
+
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
         // BCrypt ---> il s'agit d'un des algorithmes d'encodage mot de passe
     }

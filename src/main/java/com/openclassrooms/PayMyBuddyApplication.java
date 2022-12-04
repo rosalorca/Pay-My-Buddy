@@ -1,7 +1,7 @@
 package com.openclassrooms;
 
 import com.openclassrooms.service.AccountService;
-import com.openclassrooms.service.TransferService;
+import com.openclassrooms.service.TransactionService;
 import com.openclassrooms.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class PayMyBuddyApplication implements CommandLineRunner {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private TransferService operationService;
+	private TransactionService operationService;
 	@Autowired
 	private AccountService accountService;
 

@@ -18,22 +18,22 @@ public class AccountService {
     public Optional<Account> getAccountsById (Integer id){
         return accountRepository.findById(id);
     }
-    public Account saveAccount (Account account){
+    public Account createAccount (Account account){
         return accountRepository.save(account);
     }
 
     public void updateAccount (Account account){
-        Optional<Account> modified = accountRepository.findById(account.getAccount_id());
+        Optional<Account> modified = accountRepository.findById(account.getAccountId());
         if(modified.isPresent()){
             accountRepository.save(account);
         }
     }
     public void deleteAccount (Account account){
-        Optional<Account> removerAccount = accountRepository.findById(account.getAccount_id());
+        Optional<Account> removerAccount = accountRepository.findById(account.getAccountId());
         if (removerAccount.isPresent()){
-            accountRepository.deleteById(account.getAccount_id());
+            accountRepository.deleteById(account.getAccountId());
         }
-        accountRepository.deleteById(account.getAccount_id());
+        accountRepository.deleteById(account.getAccountId());
     }
 
 }
