@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "Transfer")
+@Table(name = "Transaction")
 @Data
 @DynamicUpdate
 public class Transaction {
@@ -36,7 +36,7 @@ public class Transaction {
     @Column(name = "amount")
     private double amount;
 
-    @Column(name = "transfer_time")
+    @Column(name = "operation_time")
     private long operation_date;
 
     @Column(name = "transfer_description")

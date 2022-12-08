@@ -6,6 +6,7 @@ import com.openclassrooms.repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,7 +15,7 @@ public class TransactionService {
     private TransactionRepository transferRepository;
 
 
-    public Iterable<Transaction> getAllTransaction() {
+    public List<Transaction> getAllTransaction() {
         return transferRepository.findAll();
     }
 

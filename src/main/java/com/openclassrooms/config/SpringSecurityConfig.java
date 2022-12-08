@@ -15,22 +15,31 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
+        /*auth.inMemoryAuthentication()
                 .withUser("user").password(passwordEncoder().encode("user1234"))
                 .roles("USER")
                 .and()
                 .withUser("admin").password(passwordEncoder().encode("admin1234"))
-                .roles("ADMIN", "USER");
+                .roles("ADMIN", "USER");*/
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/home", "/transaction", "/bank", "/profile", "contact", "/saveContact", "/saveOperation", "/saveTransfer")
-                .hasRole("USER");
-
-        http.authorizeRequests().antMatchers("/user/registration", "/login")
+                .antMatchers("/home", "/transaction", "/profile", "contact")
+                .authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .permitAll()
+                .and()
+                .rememberMe().key("password")
+                .and()
+                .logout()
                 .permitAll();
+
+
 
 
     }

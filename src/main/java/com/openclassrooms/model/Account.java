@@ -38,7 +38,7 @@ public class Account {
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER)
-    @JoinColumn(name = "transfer_id")
+    @JoinColumn(name = "operation_id")
     List<Transaction> operations = new ArrayList<>();
 
     public void addTransfer(Transaction transfer) {

@@ -18,15 +18,14 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
-
     }
 
     public Optional<User> getUserById(Integer id) {
         return userRepository.findById(id);
     }
 
-    public  Optional<User> getUserByEmail(String email){
-        return userRepository.findByEmail(email);
+    public  Optional<User> getUserByEmailAndPassword(String email, String password){
+        return userRepository.findByEmailAndPassword(email, password);
     }
 
     public void createUser(User user) {
@@ -40,7 +39,7 @@ public class UserService {
     }
 
     public void deleteUser(User user) {
-        Optional<User> removeUser = userRepository.findByEmail(user.getEmail());
+        Optional<User> removeUser = userRepository.findById(user.getUserId());
         if (removeUser.isPresent()) {
             userRepository.deleteById(user.getUserId());
         }
@@ -70,4 +69,6 @@ public class UserService {
         user.getTransactionList().remove(transaction);
         userRepository.save(user);
     }
+
+
 }

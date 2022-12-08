@@ -2,6 +2,8 @@ package com.openclassrooms.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -16,11 +18,12 @@ public class ErreurController {
         return mav;
     }
 
-    @GetMapping("/403")
+    @RequestMapping(value = "/403", method = RequestMethod.GET)
     public ModelAndView error403() {
         ModelAndView mav = new ModelAndView();
         String errorMessage= "You are not authorized for the requested data.";
         mav.addObject("errorMsg", errorMessage);
+        System.out.println("allo");
         mav.setViewName("403");
         return mav;
     }

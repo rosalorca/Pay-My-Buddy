@@ -12,11 +12,11 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
 import java.util.Map;
 
@@ -31,18 +31,21 @@ public class LoginController {
         this.oAuth2AuthorizedClientService = oAuth2AuthorizedClientService;
     }
 
-    @GetMapping("login")
-    public ModelAndView login() {
+    @GetMapping("/login")
+    public ModelAndView loginPage() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("login");
         return mav;
     }
 
-    @RequestMapping("/admin")
-    @RolesAllowed({"USER", "ADMIN"})
-    public String getAdmin() {
-        return "Welcome Admin !";
+    @PostMapping("/login")
+    public ModelAndView login(String email, String password) {
+        System.out.println(email + " " + password);
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("login");
+        return mav;
     }
+
     @GetMapping("secure/article-details")
     public ModelAndView getAllUserArticles() {
         ModelAndView mav = new ModelAndView();

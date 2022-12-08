@@ -69,13 +69,23 @@ public class User {
     private List<Account> accountList;
 
 
+
     public int getUserId() {
         return userId;
     }
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }
+    )
+    @JoinTable(
+            name = "transactionList",
+            joinColumns = @JoinColumn(name = "user1_id"),
+            inverseJoinColumns = @JoinColumn(name = "transaction_id"))
 
-    public List<Transaction> getTransactionList() {
-        return getTransactionList();
-    }
+    private List<Transaction> transactionList;
 
 
 

@@ -8,14 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @Slf4j
@@ -25,11 +23,11 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping("/user")
+    /*@RequestMapping("/users")
     public String home(Model model) {
         model.addAttribute("user", userRepository.findAll());
         return "user";
-    }
+    }*/
 
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers() {
@@ -37,7 +35,7 @@ public class UserController {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable("userId") int id) {
         if (userService.getUserById(id).isPresent()) {
             User user = userService.getUserById(id).get();
@@ -48,9 +46,9 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @PostMapping
+    @PostMapping("/user")
     public ResponseEntity<?> createUser(@RequestBody User user) {
-        if (userService.getUserByEmail(user.getEmail()).isEmpty()) {
+        if (userService.getUserByEmailAndPassword(user.getEmail(), user.getPassword()).isEmpty()) {
             userService.createUser(user);
             log.info("User created successfully", user.getEmail());
             return new ResponseEntity<>("User Created", HttpStatus.CREATED);
@@ -58,7 +56,7 @@ public class UserController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/userId")
+    @PutMapping("/user/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable("userId") int id, @RequestBody User user) {
         if (userService.getUserById(id).isPresent()) {
             user.setUserId(id);
@@ -70,7 +68,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @DeleteMapping("/userId")
+    @DeleteMapping("/user/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable("userId") int id, @RequestBody User user) {
         if (userService.getUserById(id).isPresent()) {
             userService.deleteUser(user);
