@@ -1,6 +1,7 @@
 package com.openclassrooms.controllers;
 
 import com.openclassrooms.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.User;
@@ -12,8 +13,8 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,6 +22,7 @@ import java.security.Principal;
 import java.util.Map;
 
 @RestController
+@Slf4j
 public class LoginController {
 
     @Autowired
@@ -34,16 +36,17 @@ public class LoginController {
     @GetMapping("/login")
     public ModelAndView loginPage() {
         ModelAndView mav = new ModelAndView();
+        mav.addObject("loginParams", new LoginParams());
         mav.setViewName("login");
         return mav;
     }
-
-    @PostMapping("/login")
-    public ModelAndView login(String email, String password) {
-        System.out.println(email + " " + password);
-        ModelAndView mav = new ModelAndView();
+    @PostMapping( "/login")
+    public String login(@ModelAttribute("loginParams") LoginParams request) {
+        log.info(request.getEmail() + " " + request.getPassword());
+        /*ModelAndView mav = new ModelAndView();
         mav.setViewName("login");
-        return mav;
+        return mav;*/
+        return "home";
     }
 
     @GetMapping("secure/article-details")
@@ -53,8 +56,9 @@ public class LoginController {
         mav.setViewName("user/list");
         return mav;
     }
-    @RequestMapping("/*")
+    /*@RequestMapping("/*")
     public String getUserInfo(Principal user) {
+        System.out.println("getUserInfo");
         StringBuffer userInfo = new StringBuffer();
         if (user instanceof UsernamePasswordAuthenticationToken) {
             userInfo.append(getUsernamePasswordLoginInfo(user));
@@ -62,7 +66,7 @@ public class LoginController {
             userInfo.append(getOauth2LoginInfo(user));
         }
         return userInfo.toString();
-    }
+    }*/
 
     private StringBuffer getOauth2LoginInfo(Principal user) {
         StringBuffer protectedInfo = new StringBuffer();

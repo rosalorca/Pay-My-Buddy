@@ -1,6 +1,10 @@
 package com.openclassrooms.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.CascadeType;
@@ -20,7 +24,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "user")
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @DynamicUpdate
 
 public class User {
@@ -28,6 +35,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Integer userId;
+
+    @NotBlank(message = "Firstname is mandatory")
+    @Column(name = "firstname")
+    private String name;
+
+    @NotBlank(message = "Lastname is mandatory")
+    @Column(name = "lastname")
+    private String lastname;
+
 
     @NotBlank(message = "E-mail is mandatory")
     @Column(name = "email")
@@ -37,13 +53,6 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @NotBlank(message = "Firstname is mandatory")
-    @Column(name = "firstname")
-    private String name;
-
-    @NotBlank(message = "Lastname is mandatory")
-    @Column(name = "lastname")
-    private String lastname;
 
 
     @ManyToMany(
@@ -58,6 +67,8 @@ public class User {
             joinColumns = @JoinColumn(name = "user1_id"),
             inverseJoinColumns = @JoinColumn(name = "user2_id")
     )
+    @ToString.Exclude
+    @JsonSerialize(using = FriendListSerializer.class)
     private List<User> friendList;
 
     @OneToMany(
@@ -66,6 +77,7 @@ public class User {
             fetch = FetchType.EAGER
     )
     @JoinColumn(name = "user_id")
+    @ToString.Exclude
     private List<Account> accountList;
 
 
@@ -84,9 +96,7 @@ public class User {
             name = "transactionList",
             joinColumns = @JoinColumn(name = "user1_id"),
             inverseJoinColumns = @JoinColumn(name = "transaction_id"))
-
+    @ToString.Exclude
     private List<Transaction> transactionList;
-
-
 
 }

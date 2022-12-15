@@ -1,10 +1,5 @@
 package com.openclassrooms;
 
-import com.openclassrooms.service.AccountService;
-import com.openclassrooms.service.TransactionService;
-import com.openclassrooms.service.UserService;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,14 +9,7 @@ import javax.transaction.Transactional;
 @SpringBootApplication
 public class PayMyBuddyApplication implements CommandLineRunner {
 
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private TransactionService operationService;
-	@Autowired
-	private AccountService accountService;
-
-	public static void main(String[] args) {
+	public static void main(String[] args)  {
 		SpringApplication.run(PayMyBuddyApplication.class, args);
 	}
 

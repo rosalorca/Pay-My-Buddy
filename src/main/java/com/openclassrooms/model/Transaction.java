@@ -10,8 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.List;
@@ -50,13 +48,11 @@ public class Transaction {
                     CascadeType.REMOVE
             }
     )
-    @JoinTable(
+   /* @JoinTable(
             name = "transaction_account",
             joinColumns = @JoinColumn(name = "account1_id"),
-            inverseJoinColumns = {@JoinColumn(name = "account2_id")}
-                   /* @JoinColumn(name = "operation_description"),
-                    @JoinColumn(name = "operation_time")}*/
-    )
+            inverseJoinColumns = {@JoinColumn(name = "account2_id")})*/
+
     private List<Account> accounts;
 
     public void addAccount(Account account) {
