@@ -5,12 +5,13 @@ import com.openclassrooms.model.Transaction;
 import com.openclassrooms.model.User;
 import com.openclassrooms.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
+//@Service
+@Controller
 public class UserService {
     @Autowired
     private UserRepository userRepository;
@@ -44,8 +45,8 @@ public class UserService {
             userRepository.deleteById(user.getUserId());
         }
     }
-    public void addFriend(User user, User myFriends) {
-       user.getFriendList().add(myFriends);
+    public void addFriend(User user, User myFriend) {
+       user.getFriendList().add(myFriend);
         userRepository.save(user);
     }
 

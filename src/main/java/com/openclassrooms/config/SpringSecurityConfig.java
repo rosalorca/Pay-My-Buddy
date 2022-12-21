@@ -1,52 +1,69 @@
 package com.openclassrooms.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.openclassrooms.service.MyUserDetailsService;
+import com.openclassrooms.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurityConfig {
+public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private UserService userService;
+
+    UserDetailsService userDetailsService;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/Users")
-                .permitAll()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/home", "/transaction/**", "/profile", "/contact", "/User/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .failureUrl("/404");
-        return http.build();
+    public UserDetailsService userDetailsService() {
+        return new MyUserDetailsService();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-        // BCrypt ---> il s'agit d'un des algorithmes d'encodage mot de passe
+
     }
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
-     /*   UserDetails user = User
-                .withUsername("ozlem@gmail.com")
-                .password(passwordEncoder().encode("abcdef"))
-                .roles("USER_ROLE")
-                .build();
-        return new InMemoryUserDetailsManager(user);
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
 
-        auth.inMemoryAuthentication()
-                .withUser("ozlem@gmail.com").password("abcdef").roles("user");
-    }*/}
+        return authProvider;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+    }
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http.formLogin()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .passwordParameter("password");
+        http.authorizeRequests()
+                .antMatchers("/home", "/transaction", "/account", "/profile", "myFriend")
+                .hasRole("USER");
+        http.authorizeRequests().antMatchers("/user/registration", "/login")
+                .permitAll();
+        http.logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login");
+        http.exceptionHandling().accessDeniedPage("/400");
+        http.exceptionHandling().accessDeniedPage("/403");
+        http.exceptionHandling().accessDeniedPage("/404");
+    }
+
+
 }

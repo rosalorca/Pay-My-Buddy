@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -25,13 +26,13 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/Users")
+    @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
         log.info("Success find all users");
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/User/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable("userId") int id) {
         if (userService.getUserById(id).isPresent()) {
             User user = userService.getUserById(id).get();
@@ -42,7 +43,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @PostMapping("/User")
+    @PostMapping("/user")
     public ResponseEntity<?> createUser(@RequestBody User user) {
         if (userService.getUserByEmailAndPassword(user.getEmail(), user.getPassword()).isEmpty()) {
             userService.createUser(user);
@@ -52,7 +53,7 @@ public class UserController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PutMapping("/User/{userId}")
+    @PutMapping("/user/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable("userId") int id, @RequestBody User user) {
         if (userService.getUserById(id).isPresent()) {
             user.setUserId(id);
@@ -64,20 +65,39 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @DeleteMapping("/User/{userId}")
+    @DeleteMapping("/user/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable("userId") int id, @RequestBody User user) {
         if (userService.getUserById(id).isPresent()) {
             userService.deleteUser(user);
             log.info("User deleted successfully");
-            return new ResponseEntity<>("User deleted", HttpStatus.OK);
+            return new ResponseEntity<>("User deleted !", HttpStatus.OK);
         }
         log.error("Failed to delete user because of a BAD REQUEST");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-  /*  @PutMapping("/myFriendList/{userId}/addFriend")
-    public ResponseEntity<?> addFriend (@PathVariable ("userId"), int id, @RequestBody User friend){
+   @PutMapping("user/myFriendList/{userId}/addFriend")
+    public ResponseEntity<?> addFriend (@PathVariable ("userId") int id, @RequestBody User friend){
+        Optional<User> user = userService.getUserById(id);
+        if(user.isPresent()){
+            userService.addFriend(user.get(), friend);
+            log.info("Friend added successfully");
+            return new ResponseEntity<>("Friends added ! ", HttpStatus.OK);
+        }
+       log.error("Can't find the user based on this id");
+       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-    }*/
+    }
+     @DeleteMapping("user/myFriendList/{userId}/deleteFriend")
+    public ResponseEntity<?> deleteFriend (@PathVariable ("userId") int id, @RequestBody User friend) {
+         Optional<User> user = userService.getUserById(id);
+         if (user.isPresent()) {
+             userService.removeFriend(user.get(), friend);
+             log.info("Friend deleted successfully");
+             return new ResponseEntity<>("Friends deleted ! ", HttpStatus.OK);
+         }
+         log.error("Can't find the user based on this id");
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+     }
 
 
 }

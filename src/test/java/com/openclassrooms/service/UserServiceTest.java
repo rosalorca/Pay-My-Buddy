@@ -34,9 +34,9 @@ class UserServiceTest {
 
     @Test
     void getAllUsersTest() {
-        User user1 = new User();
+        User user1 = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         user1.setName("Özlem");
-        User user2 = new User();
+        User user2 = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         user2.setName("Jack");
         when(ur.findAll()).thenReturn(List.of(user1, user2));
 
@@ -47,7 +47,7 @@ class UserServiceTest {
 
     @Test
     void getUserByIdTest() throws Exception {
-        User ozlem = new User();
+        User ozlem = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         ozlem.setUserId(1);
         Optional<User> user = Optional.of(ozlem);
         when(ur.findById(1)).thenReturn(user);
@@ -58,7 +58,7 @@ class UserServiceTest {
 
     @Test
     void getUserByEmailTest() {
-        User userOzlem = new User();
+        User userOzlem = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         userOzlem.setEmail("ozlem@gmail.com");
         userOzlem.setPassword("abcdef");
         Optional<User> user = Optional.of(userOzlem);
@@ -72,7 +72,7 @@ class UserServiceTest {
 
     @Test
     void createUserTest() {
-        User userOzlem = new User();
+        User userOzlem = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         userOzlem.setEmail("ozlem@gmail.com");
         userOzlem.setPassword("abcdef");
         us.createUser(userOzlem);
@@ -81,7 +81,7 @@ class UserServiceTest {
 
     @Test
     void updateUserExistTest() throws Exception {
-        User ozlem = new User();
+        User ozlem = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         ozlem.setUserId(1);
         ozlem.setEmail("ozlem@gmail.com");
         ozlem.setLastname("Donder");
@@ -90,7 +90,7 @@ class UserServiceTest {
         Optional<User> result = us.getUserById(1);
         assertEquals("Donder", result.get().getLastname());
 
-        User updateOzlem = new User();
+        User updateOzlem = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         updateOzlem.setUserId(1);
         updateOzlem.setLastname("Lorca");
         updateOzlem.setEmail("ozlem@yahoo.com");
@@ -102,7 +102,7 @@ class UserServiceTest {
 
     @Test
     void updateUserNotExistTest() throws Exception {
-        User ozlem = new User();
+        User ozlem = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         ozlem.setUserId(1);
         ozlem.setEmail("ozlem@gmail.com");
         ozlem.setLastname("Donder");
@@ -111,7 +111,7 @@ class UserServiceTest {
         Optional<User> result = us.getUserById(1);
         assertEquals("Donder", result.get().getLastname());
 
-        User updateOzlem = new User();
+        User updateOzlem = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         updateOzlem.setUserId(1);
         updateOzlem.setLastname("Lorca");
         updateOzlem.setEmail("ozlem@yahoo.com");
@@ -122,7 +122,7 @@ class UserServiceTest {
 
     @Test
     void deleteUserTest() {
-        User ozlem = new User();
+        User ozlem = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         ozlem.setUserId(1);
         ozlem.setEmail("ozlem@gmail.com");
         ozlem.setLastname("Donder");
@@ -137,12 +137,12 @@ class UserServiceTest {
 
     @Test
     void addFriendTest() {
-        User ozlem = new User();
+        User ozlem = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         ozlem.setUserId(1);
         ozlem.setFriendList(new ArrayList<>());
         when(ur.findById(eq(1))).thenReturn(Optional.of(ozlem));
 
-        User kevin = new User();
+        User kevin = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         ozlem.setUserId(2);
         when(ur.findById(eq(2))).thenReturn(Optional.of(kevin));
 
@@ -157,12 +157,12 @@ class UserServiceTest {
 
     @Test
     void removeFriendTest() {
-        User ozlem = new User();
+        User ozlem = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         ozlem.setUserId(1);
         ozlem.setFriendList(new ArrayList<>());
         when(ur.findById(eq(1))).thenReturn(Optional.of(ozlem));
 
-        User kevin = new User();
+        User kevin = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         ozlem.setUserId(2);
         when(ur.findById(eq(2))).thenReturn(Optional.of(kevin));
 
@@ -180,7 +180,7 @@ class UserServiceTest {
 
     @Test
     void addAccountTest() {
-        User ozlem = new User();
+        User ozlem = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         ozlem.setUserId(1);
         ozlem.setAccountList(new ArrayList<>());
         when(ur.findById(eq(1))).thenReturn(Optional.of(ozlem));
@@ -201,7 +201,7 @@ class UserServiceTest {
 
     @Test
     void removeAccountTest() {
-        User ozlem = new User();
+        User ozlem = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         ozlem.setUserId(1);
         ozlem.setAccountList(new ArrayList<>());
         when(ur.findById(eq(1))).thenReturn(Optional.of(ozlem));
@@ -223,7 +223,7 @@ class UserServiceTest {
 
     @Test
     void addTransferTest() {
-        User ozlem = new User();
+        User ozlem = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         ozlem.setUserId(1);
         ozlem.setTransactionList(new ArrayList<>());
 
@@ -243,7 +243,7 @@ class UserServiceTest {
 
     @Test
     void removeTransferTest() {
-        User ozlem = new User();
+        User ozlem = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
         ozlem.setUserId(1);
         ozlem.setTransactionList(new ArrayList<>());
 

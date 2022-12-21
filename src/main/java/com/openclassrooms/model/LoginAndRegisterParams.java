@@ -1,11 +1,11 @@
-package com.openclassrooms.controllers;
+package com.openclassrooms.model;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginParams {
+public class LoginAndRegisterParams {
     String email;
     String password;
 }
