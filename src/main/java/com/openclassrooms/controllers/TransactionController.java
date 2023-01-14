@@ -43,13 +43,13 @@ public class TransactionController {
     @PostMapping("/transaction")
     public ResponseEntity<?> createTransaction(@RequestBody Transaction transaction) {
         transactionService.createTransaction(transaction);
-        log.info("Transaction created successfully", transaction.getTransId());
+        log.info("Transaction created successfully", transaction.getTransactionId());
         return new ResponseEntity<>("Transaction Created", HttpStatus.CREATED);
     }
     @PutMapping("/transaction/{transaction_id}")
     public ResponseEntity<?> updateTransaction(@PathVariable("transId") int id, @RequestBody Transaction transaction) {
         if (transactionService.getTransactionsById(id).isPresent()) {
-            transaction.setTransId(id);
+            transaction.setTransactionId(id);
             transactionService.updateTransaction(transaction);
             log.info("Transaction updated successfully");
             return new ResponseEntity<>("Transaction updated", HttpStatus.OK);

@@ -1,7 +1,5 @@
 package com.openclassrooms.service;
 
-import com.openclassrooms.model.Account;
-import com.openclassrooms.model.Transaction;
 import com.openclassrooms.model.User;
 import com.openclassrooms.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,30 +44,30 @@ public class UserService {
         }
     }
     public void addFriend(User user, User myFriend) {
-       user.getFriendList().add(myFriend);
+       user.getFriends().add(myFriend);
         userRepository.save(user);
     }
 
     public void removeFriend(User user, User friendUser) {
-       user.getFriendList().remove(friendUser);
+       user.getFriends().remove(friendUser);
        userRepository.save(user);
     }
-    public void addAccount (User user, Account account){
-        user.getAccountList().add(account);
+  /*  public void addAccount (User user, Account account){
+        user.getAccount();
         userRepository.save(user);
     }
     public  void removeAccount (User user, Account account){
         user.getAccountList().remove(account);
         userRepository.save(user);
-    }
-    public void addTransfer (User user, Transaction transaction){
+    }*/
+  /*  public void addTransfer (User user, Transaction transaction){
         user.getTransactionList().add(transaction);
         userRepository.save(user);
     }
     public void removeTransfer (User user, Transaction transaction){
-        user.getTransactionList().remove(transaction);
+        .remove(transaction);
         userRepository.save(user);
-    }
+    }*/
 
 
 }

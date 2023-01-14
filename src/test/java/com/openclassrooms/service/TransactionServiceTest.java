@@ -28,9 +28,9 @@ public class TransactionServiceTest {
 
     @Test
     void getAllTransactionTest() {
-        Transaction operation = new Transaction();
-        operation.setTransId(1);
-        when(tr.findAll()).thenReturn(List.of(operation));
+        Transaction transaction = new Transaction();
+        transaction.setTransactionId(1);
+        when(tr.findAll()).thenReturn(List.of(transaction));
 
         List<Transaction> result = ts.getAllTransaction();
         assertEquals(1, result.size());
@@ -41,19 +41,19 @@ public class TransactionServiceTest {
     @Test
     void getTransactionsByIdTest() {
         Transaction acte = new Transaction();
-        acte.setTransId(1);
-        Optional<Transaction> operation = Optional.of(acte);
-        when(tr.findById(1)).thenReturn(operation);
+        acte.setTransactionId(1);
+        Optional<Transaction> transaction = Optional.of(acte);
+        when(tr.findById(1)).thenReturn(transaction);
 
         Optional<Transaction> result = ts.getTransactionsById(1);
-        assertEquals(1, result.get().getTransId());
+        assertEquals(1, result.get().getTransactionId());
 
     }
 
     @Test
     void createTransactionTest() {
         Transaction acte = new Transaction();
-        acte.setTransId(1);
+        acte.setTransactionId(1);
         acte.setAmount(600);
         ts.createTransaction(acte);
         verify(tr,times (1)).save(acte);
@@ -63,15 +63,15 @@ public class TransactionServiceTest {
     @Test
     void updateTransactionTest() {
         Transaction acte = new Transaction();
-        acte.setTransId(1);
+        acte.setTransactionId(1);
         acte.setAmount(600);
         when(tr.findById(1)).thenReturn(Optional.of(acte));
 
         Optional<Transaction> result = Optional.of(acte);
-        assertEquals(1,  result.get().getTransId());
+        assertEquals(1,  result.get().getTransactionId());
 
         Transaction updateActe = new Transaction();
-        updateActe.setTransId(1);
+        updateActe.setTransactionId(1);
         updateActe.setAmount(200);
 
         ts.updateTransaction(updateActe);
@@ -81,13 +81,13 @@ public class TransactionServiceTest {
     @Test
     void deleteTransactionTest() {
         Transaction acte = new Transaction();
-        acte.setTransId(1);
+        acte.setTransactionId(1);
         acte.setAmount(600);
 
         when(tr.findById(1)).thenReturn(Optional.of(acte));
 
         Optional<Transaction> result = Optional.of(acte);
-        assertEquals(1,  result.get().getTransId());
+        assertEquals(1,  result.get().getTransactionId());
 
         ts.deleteTransaction(acte);
         verify(tr, times(1)).deleteById(1);

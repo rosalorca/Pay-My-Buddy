@@ -35,10 +35,10 @@ class UserControllerTest {
 
     @Test
     void getAllUsersTest() throws Exception {
-        User user1 = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
+        User user1 = new User();
         user1.setUserId(1);
         user1.setName("Özlem");
-        User user2 = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
+        User user2 = new User();
         user2.setUserId(2);
         user2.setName("Jack");
         when(us.getAllUsers()).thenReturn(List.of(user1, user2));
@@ -53,7 +53,7 @@ class UserControllerTest {
 
     @Test
     void getUserByIdTest() throws Exception {
-        User user1 = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
+        User user1 = new User();
         user1.setUserId(1);
         when(us.getUserById(1)).thenReturn(Optional.of(user1));
         String expected = "[User(userId=1, email=null, password=null, name=Özlem, lastname=null, accountList=null), User(userId=2, email=null, password=null, name=Jack, lastname=null, accountList=null)]";
@@ -67,7 +67,7 @@ class UserControllerTest {
     @Test
     void shouldCreateUserIfNotExist() throws Exception {
         when(us.getUserByEmailAndPassword("ozlem@gmail.com", "abcdef")).thenReturn(Optional.empty());
-        User user1 = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
+        User user1 = new User();
         user1.setUserId(1);
         user1.setEmail("ozlem@gmail.com");
         user1.setPassword("abcdef");
@@ -88,13 +88,13 @@ class UserControllerTest {
 
     @Test
     void updateUserExistTest() throws Exception {
-        User user1 = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
+        User user1 = new User();
         user1.setUserId(1);
         user1.setName("Özlem");
         user1.setLastname("Dônder");
         when(us.getUserById(eq(1))).thenReturn(Optional.of(user1));
         String expected = "[User(userId=1, email=ozlem@gmail.com, password=abcdef, name=Özlem, lastname=Lorca, accountList=null), User(userId=2, email=null, password=null, name=Jack, lastname=null, accountList=null)]";
-        User updateUser = new User(userRegistrationObject.getEmail(), encodedPassword, authorities);
+        User updateUser = new User();
         updateUser.setUserId(1);
         updateUser.setLastname("Lorca");
         ObjectMapper mapper = new ObjectMapper();

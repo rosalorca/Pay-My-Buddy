@@ -10,6 +10,11 @@
 
     <h2> PAY MY BUDDY </h2>
         <h2 th:text ="${message}">Welcome to your application Pay My Buddy ! </h2>
+        <div data-th-object="${ utilisateur }">
+            <p>Prénom : <span data-th-text="*{ prenom }">Jean</span></p>
+            <p>Nom : <span data-th-text="*{ nom }">Dubois</span></p>
+            <p>Age : <span data-th-text="*{ age }">35</span> ans</p>
+        </div>
 
     </div>
 </body>

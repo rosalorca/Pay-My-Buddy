@@ -23,21 +23,21 @@ public class TransactionService {
         return transferRepository.findById(id);
     }
 
-    public Transaction createTransaction(Transaction operation) {
-        return transferRepository.save(operation);
+    public Transaction createTransaction(Transaction transaction) {
+        return transferRepository.save(transaction);
     }
 
-    public void updateTransaction(Transaction operation) {
-        Optional<Transaction> modified = transferRepository.findById(operation.getTransId());
+    public void updateTransaction(Transaction transaction) {
+        Optional<Transaction> modified = transferRepository.findById(transaction.getTransactionId());
         if (modified.isPresent()) {
-            transferRepository.save(operation);
+            transferRepository.save(transaction);
         }
     }
 
-    public void deleteTransaction(Transaction operation) {
-        Optional<Transaction> removeOperation = transferRepository.findById(operation.getTransId());
+    public void deleteTransaction(Transaction transaction) {
+        Optional<Transaction> removeOperation = transferRepository.findById(transaction.getTransactionId());
         if (removeOperation.isPresent()) {
-            transferRepository.deleteById(operation.getTransId());
+            transferRepository.deleteById(transaction.getTransactionId());
         }
     }
 

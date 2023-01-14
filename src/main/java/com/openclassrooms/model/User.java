@@ -1,6 +1,5 @@
 package com.openclassrooms.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -19,11 +18,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 @Getter
 @Setter
 @ToString
@@ -54,7 +54,6 @@ public class User {
     private String password;
 
 
-
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {
@@ -63,13 +62,13 @@ public class User {
             }
     )
     @JoinTable(
-            name = "myFriendList",
+            name = "userFriends",
             joinColumns = @JoinColumn(name = "user1_id"),
             inverseJoinColumns = @JoinColumn(name = "user2_id")
     )
-    @ToString.Exclude
-    @JsonSerialize(using = FriendListSerializer.class)
-    private List<User> friendList;
+    //@ToString.Exclude
+    //@JsonSerialize(using = FriendListSerializer.class)
+    private List<User> friends;
 
     @OneToMany(
             cascade = CascadeType.ALL,
@@ -77,27 +76,8 @@ public class User {
             fetch = FetchType.EAGER
     )
     @JoinColumn(name = "user_id")
-    @ToString.Exclude
-    private List<Account> accountList;
+    private List<Account> accounts;
 
-
-
-    public int getUserId() {
-        return userId;
-    }
-    @ManyToMany(
-            fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }
-    )
-    @JoinTable(
-            name = "transactionList",
-            joinColumns = @JoinColumn(name = "user1_id"),
-            inverseJoinColumns = @JoinColumn(name = "transaction_id"))
-    @ToString.Exclude
-    private List<Transaction> transactionList;
 
 
 }

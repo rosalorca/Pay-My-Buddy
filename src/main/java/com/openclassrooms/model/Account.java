@@ -1,6 +1,8 @@
 package com.openclassrooms.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.CascadeType;
@@ -10,15 +12,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "Account")
-@Data
+@Getter
+@Setter
+@ToString
 @DynamicUpdate
 
 public class Account {
@@ -34,21 +36,14 @@ public class Account {
     @Column(name = "balance")
     private double balance;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.EAGER)
-    @JoinColumn(name = "operation_id")
-    List<Transaction> operations = new ArrayList<>();
-
-    public void addTransfer(Transaction transfer) {
-        operations.add(transfer);
-        transfer.getAccounts().add(this);
-    }
-
-    public void removeTransfer(Transaction transfer) {
-        operations.remove(transfer);
-        transfer.getAccounts().remove(this);
-    }
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }
+    )
+    @ToString.Exclude
+    private List<Transaction> transactions;
 
 }

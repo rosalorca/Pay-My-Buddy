@@ -1,22 +1,28 @@
 package com.openclassrooms.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Transaction")
-@Data
+@Getter
+@Setter
+@ToString
 @DynamicUpdate
 public class Transaction {
 
@@ -24,7 +30,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "transaction_id")
-    private Integer transId;
+    private Integer transactionId;
     @Column(name = "account1_id")
     private int account1Id;
 
@@ -34,34 +40,13 @@ public class Transaction {
     @Column(name = "amount")
     private double amount;
 
-    @Column(name = "operation_time")
-    private long operation_date;
+    @Column(name = "transaction_date")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate transaction_date;
 
-    @Column(name = "transfer_description")
-    private String operation_description;
+    @Column(name = "transaction_description")
+    private String transaction_description;
 
-    @ManyToMany(
-            fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE,
-                    CascadeType.REMOVE
-            }
-    )
-   /* @JoinTable(
-            name = "transaction_account",
-            joinColumns = @JoinColumn(name = "account1_id"),
-            inverseJoinColumns = {@JoinColumn(name = "account2_id")})*/
-
-    private List<Account> accounts;
-
-    public void addAccount(Account account) {
-        accounts.add(account);
-        account.getOperations().add(this);
-    }
-
-    public void removeAccount(Account account) {
-        accounts.remove(account);
-        account.getOperations().remove(this);
-    }
 }

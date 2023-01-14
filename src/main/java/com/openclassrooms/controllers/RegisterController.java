@@ -6,8 +6,7 @@ import com.openclassrooms.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +21,10 @@ public class RegisterController {
 
     @Autowired
     private UserRepository ur;
+    /*@Autowired
+    private UserDetailsManager userDetailsManager;*/
     @Autowired
-    private UserDetailsManager userDetailsManager;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public ModelAndView register() {
@@ -37,9 +36,12 @@ public class RegisterController {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
-        String encodedPassword = bCryptPasswordEncoder.encode(userRegistrationObject.getPassword());
+        String encodedPassword = passwordEncoder.encode(userRegistrationObject.getPassword());
 
         User user = new User();
+        user.setEmail(userRegistrationObject.getEmail());
+        user.setPassword(encodedPassword);
+        ur.save(user);
 
         return  null;
     }

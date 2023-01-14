@@ -4,7 +4,6 @@ import com.openclassrooms.model.LoginAndRegisterParams;
 import com.openclassrooms.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,11 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @Slf4j
 public class LoginController {
-    private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
+ /*   private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
 
     public LoginController(OAuth2AuthorizedClientService oAuth2AuthorizedClientService) {
         this.oAuth2AuthorizedClientService = oAuth2AuthorizedClientService;
-    }
+    }*/
 
     @Autowired
     private UserRepository userRepository;
