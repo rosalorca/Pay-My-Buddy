@@ -1,19 +1,32 @@
 package com.openclassrooms.controllers;
 
+import com.openclassrooms.model.User;
+import com.openclassrooms.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
-
-import java.security.Principal;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class HomeController {
+@Slf4j
 
-    @RequestMapping("/home")
-    public String home(Principal principal, Model model) {
-        System.out.println(principal);
-        model.addAttribute("message", "Welcome to your application Pay My Buddy ! ");
+public class HomeController {
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/")
+    public String userHome() {
+        return "redirect:/home";
+    }
+    @GetMapping("/home")
+    public String home(Model model) {
+        org.springframework.security.core.userdetails.User springUser = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByEmail(springUser.getUsername());
+        model.addAttribute("user", user.getName() + " " + user.getLastname());
         return "home";
     }
 
 }
+

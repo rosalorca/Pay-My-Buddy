@@ -3,9 +3,11 @@ package com.openclassrooms.service;
 import com.openclassrooms.model.Transaction;
 import com.openclassrooms.model.User;
 import com.openclassrooms.repositories.TransactionRepository;
+import com.openclassrooms.webParams.TransactionParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +15,20 @@ import java.util.Optional;
 public class TransactionService {
     @Autowired
     private TransactionRepository transferRepository;
+    @Autowired
+    private UserService userService;
+
+    public Transaction save(TransactionParams transactionParams) {
+        final Transaction transaction = new Transaction();
+        User user2 = userService.getUserByEmail(transactionParams.getEmail());
+        User user1 = userService.getUserByEmail(transactionParams.getMyEmail());
+        transaction.setAccount2Id(user2.getUserId());
+        transaction.setAccount1Id(user1.getUserId());
+        transaction.setAmount(transactionParams.getAmount());
+        transaction.setTransaction_description(transactionParams.getDescription());
+        transaction.setTransaction_date(LocalDate.now());
+        return transferRepository.save(transaction);
+    }
 
 
     public List<Transaction> getAllTransaction() {
@@ -51,6 +67,7 @@ public class TransactionService {
         var amount = transfer.getAmount();
         if (amount <= 0) {
 
-        }return false;
+        }
+        return false;
     }
 }

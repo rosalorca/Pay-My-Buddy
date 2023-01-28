@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -75,29 +74,7 @@ public class UserController {
         log.error("Failed to delete user because of a BAD REQUEST");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-   @PutMapping("user/myFriendList/{userId}/addFriend")
-    public ResponseEntity<?> addFriend (@PathVariable ("userId") int id, @RequestBody User friend){
-        Optional<User> user = userService.getUserById(id);
-        if(user.isPresent()){
-            userService.addFriend(user.get(), friend);
-            log.info("Friend added successfully");
-            return new ResponseEntity<>("Friends added ! ", HttpStatus.OK);
-        }
-       log.error("Can't find the user based on this id");
-       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-    }
-     @DeleteMapping("user/myFriendList/{userId}/deleteFriend")
-    public ResponseEntity<?> deleteFriend (@PathVariable ("userId") int id, @RequestBody User friend) {
-         Optional<User> user = userService.getUserById(id);
-         if (user.isPresent()) {
-             userService.removeFriend(user.get(), friend);
-             log.info("Friend deleted successfully");
-             return new ResponseEntity<>("Friends deleted ! ", HttpStatus.OK);
-         }
-         log.error("Can't find the user based on this id");
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-     }
 
 
 }

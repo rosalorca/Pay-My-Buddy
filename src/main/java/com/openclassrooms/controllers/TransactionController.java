@@ -3,19 +3,24 @@ package com.openclassrooms.controllers;
 import com.openclassrooms.model.Transaction;
 import com.openclassrooms.repositories.TransactionRepository;
 import com.openclassrooms.service.TransactionService;
+import com.openclassrooms.webParams.TransactionParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+import java.security.Principal;
+
+@Controller
 @Slf4j
 public class TransactionController {
     @Autowired
@@ -23,13 +28,26 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
-   @GetMapping("/transactions")
+    @GetMapping("/transactions")
     public ResponseEntity<?> getAllTransaction() {
         log.info("Success find all transaction");
         return new ResponseEntity<>(transactionService.getAllTransaction(), HttpStatus.OK);
     }
 
-   @GetMapping("/transaction/{transaction_id}") // tekrar bak
+    @GetMapping("/transaction")
+    public String transactionPage(Model model) {
+        model.addAttribute("transactionParams", new TransactionParams());
+        return "transaction";
+    }
+
+    @PostMapping("/transaction")
+    public String registerTransaction(@ModelAttribute("transaction") TransactionParams transactionParams, Principal principal) {
+        transactionParams.setMyEmail(principal.getName());
+        transactionService.save(transactionParams);
+        return "redirect:/transaction?success";
+    }
+
+    @GetMapping("/transaction/{transaction_id}") // tekrar bak
     public ResponseEntity<?> getTransactionById(@PathVariable("transId") int id) {
         if (transactionService.getTransactionsById(id).isPresent()) {
             Transaction trans = transactionService.getTransactionsById(id).get();
@@ -40,12 +58,7 @@ public class TransactionController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @PostMapping("/transaction")
-    public ResponseEntity<?> createTransaction(@RequestBody Transaction transaction) {
-        transactionService.createTransaction(transaction);
-        log.info("Transaction created successfully", transaction.getTransactionId());
-        return new ResponseEntity<>("Transaction Created", HttpStatus.CREATED);
-    }
+
     @PutMapping("/transaction/{transaction_id}")
     public ResponseEntity<?> updateTransaction(@PathVariable("transId") int id, @RequestBody Transaction transaction) {
         if (transactionService.getTransactionsById(id).isPresent()) {
@@ -57,17 +70,17 @@ public class TransactionController {
         log.error("Failed to update transaction because the transaction was not found");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
     @DeleteMapping("/transaction/{transaction_id}")
     public ResponseEntity<?> deleteTransaction(@PathVariable("transId") int id, @RequestBody Transaction transaction) {
         if (transactionService.getTransactionsById(id).isPresent()) {
-           transactionService.deleteTransaction(transaction);
+            transactionService.deleteTransaction(transaction);
             log.info("Transaction deleted successfully");
             return new ResponseEntity<>("Transaction deleted", HttpStatus.OK);
         }
         log.error("Failed to delete transaction because of a BAD REQUEST");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-
 
 
 }

@@ -16,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
@@ -62,22 +61,31 @@ public class User {
             }
     )
     @JoinTable(
-            name = "userFriends",
+            name = "contact",
             joinColumns = @JoinColumn(name = "user1_id"),
             inverseJoinColumns = @JoinColumn(name = "user2_id")
     )
     //@ToString.Exclude
     //@JsonSerialize(using = FriendListSerializer.class)
-    private List<User> friends;
+    private List<User> contact;
 
-    @OneToMany(
+  /*  @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JoinColumn(name = "user_id")
-    private List<Account> accounts;
+    private List<Account> accounts;*/
+  @ManyToMany(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
 
 
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+
+    private List<Role> roles;
 
 }

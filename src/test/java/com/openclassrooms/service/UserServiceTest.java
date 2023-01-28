@@ -191,7 +191,7 @@ class UserServiceTest {
         List<Account> ozlemAccount = ozlem.getAccounts();
         assertTrue(ozlemAccount.isEmpty());
 
-       // us.addAccounts(ozlem, account);
+        us.addAccounts(ozlem, account);
         ozlemAccount = ozlem.getAccounts();
         assertEquals(1, ozlemAccount.size());
         assertEquals(account, ozlemAccount.get(0));
@@ -215,7 +215,7 @@ class UserServiceTest {
      //   us.addAccount(ozlem, account);
         ozlemAccount = ozlem.getAccounts();
         assertEquals(1, ozlemAccount.size());
-        assertEquals(account, ozlemAccount.get(0));
+        assertEquals(account, ozlemAccount.get(1));
 
         //us.removeAccount(ozlem, account);
         assertEquals(0, ozlemAccount.size());
