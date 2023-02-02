@@ -64,7 +64,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user1_id"),
             inverseJoinColumns = @JoinColumn(name = "user2_id")
     )
-    private List<User> contact;
+    private List<User> contacts;
 
     @ManyToMany(
             fetch = FetchType.EAGER,

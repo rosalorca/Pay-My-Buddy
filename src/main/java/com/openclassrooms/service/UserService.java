@@ -3,7 +3,6 @@ package com.openclassrooms.service;
 import com.openclassrooms.model.Transaction;
 import com.openclassrooms.model.User;
 import com.openclassrooms.repositories.UserRepository;
-import com.openclassrooms.webParams.ContactParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +14,6 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-
-    public User save(ContactParams contactParams) {
-        final User user = new User();
-        user.setEmail(contactParams.getEmail());
-
-        return userRepository.save(user);
-    }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -58,14 +50,12 @@ public class UserService {
     }
 
     public void addFriend(User user, User myFriend) {
-        user.getContact().add(myFriend);
+        user.getContacts().add(myFriend);
         userRepository.save(user);
     }
 
     public void removeFriend(User user, User friendUser) {
-        user.getContact().remove(friendUser);
-        userRepository.save(user);
-    }
+        user.getContacts().remove(friendUser);
         userRepository.save(user);
     }
 

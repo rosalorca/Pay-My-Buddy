@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.security.Principal;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -29,13 +31,22 @@ public class ContactController {
     private UserRepository userRepository;
 
     @GetMapping("/contact")
-    public String contactPage(Model model) {
+    public String contactPage(Model model, Principal principal) {
+        final User me = userService.getUserByEmail(principal.getName());
+        List<User> users = userService.getAllUsers();
+        users.removeIf(user -> Objects.equals(user.getUserId(), me.getUserId()) || me.getContacts().contains(user));
+        model.addAttribute("availableUsers", users);
+        model.addAttribute("userId", me.getUserId());
         model.addAttribute("contactParams", new ContactParams());
+        model.addAttribute("myContacts", me.getContacts());
         return "contact";
     }
     @PostMapping("/contact")
-    public String registerContact(@ModelAttribute("contact") ContactParams contactParams) {
-        userService.save(contactParams);
+    public String registerContact(@ModelAttribute("contact") ContactParams contactParams, Principal principal) {
+        userService.addFriend(
+                userService.getUserByEmail(principal.getName()), // my user
+                userService.getUserByEmail(contactParams.getEmail()) // my friend user to add
+        );
         return "redirect:/contact?success";
     }
     @PutMapping("contact/{userId}/addFriend")
@@ -50,15 +61,16 @@ public class ContactController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
     }
-    @DeleteMapping("contact/myFriendList/{userId}/deleteFriend")
-    public ResponseEntity<?> deleteFriend (@PathVariable ("userId") int id, @RequestBody User friend) {
+    @GetMapping("/contact/myFriendList/{userId}/deleteFriend/{friendId}")
+    public String deleteFriend (@PathVariable ("userId") int id, @PathVariable ("friendId") int friendId) {
         Optional<User> user = userService.getUserById(id);
-        if (user.isPresent()) {
-            userService.removeFriend(user.get(), friend);
+        Optional<User> friend = userService.getUserById(friendId);
+        if (user.isPresent() && friend.isPresent()) {
+            userService.removeFriend(user.get(), friend.get());
             log.info("Friend deleted successfully");
-            return new ResponseEntity<>("Friends deleted ! ", HttpStatus.OK);
+            return "redirect:/contact?friendDeleteSuccess";
         }
         log.error("Can't find the user based on this id");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return "redirect:/contact?friendDeleteFailed";
     }
 }

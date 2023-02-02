@@ -38,15 +38,16 @@
                     <div>
                         <div class="form-group">
                             <label class="control-label" for="email"> User </label>
-                            <input id="email" class="form-control" th:field="*{email}"
-                                   required autofocus="autofocus"
-                                   placeholder="Enter a email please ! "/>
+                            <select id="email" class="form-control custom-select" th:field="*{email}"
+                                    required autofocus="autofocus"
+                                    placeholder="Enter a email please ! ">
+                                <option th:each="user:${availableUsers}" th:value="${user.getEmail()}" th:text="${user.getEmail()}"></option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-success">Add Contact</button>
-                        <a class="btn btn-danger" href="/">Remove Contact</a>
                     </div>
                 </form>
             </div>
@@ -59,18 +60,27 @@
                     <th class="column-title">Name</th>
                     <th class="column-title">Lastname</th>
                     <th class="column-title">Email</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <br>
                 <tbody>
-                <tr class="even pointer" th:each="row:${rows}" id = "contacts">
-                    <td class=" " th:text="${row.getName()}">Name</td>
-                    <td class=" " th:text="${row.getLastName()}">Lastname</td>
-                    <td class=" " th:text="${row.getEmail()}">Email</td>
+                <tr class="even pointer" th:each="contact:${myContacts}">
+                    <td class=" " th:text="${contact.getName()}">Name</td>
+                    <td class=" " th:text="${contact.getLastname()}">Lastname</td>
+                    <td class=" " th:text="${contact.getEmail()}">Email</td>
+                    <td><a class="btn btn-danger" th:href="@{'/contact/myFriendList/' + ${userId} + '/deleteFriend/' + ${contact.getUserId()}}">x</a></td>
                 </tr>
                 </tbody>
 
             </table>
+
+            <div th:if="${param.friendDeleteSuccess}">
+                <div class="alert alert-success"> You have successfully removed this friend from your list !</div>
+            </div>
+            <div th:if="${param.friendDeleteFailed}">
+                <div class="alert alert-danger"> Oops ! Something went wong while trying to remove this friend from your list...</div>
+            </div>
         </div>
     </div>
 </div>
