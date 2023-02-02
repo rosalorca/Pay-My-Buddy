@@ -1,6 +1,5 @@
 package com.openclassrooms.service;
 
-import com.openclassrooms.model.Account;
 import com.openclassrooms.model.User;
 import com.openclassrooms.repositories.UserRepository;
 import org.junit.jupiter.api.Test;

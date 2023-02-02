@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +34,9 @@ public class MyUserDetailServiceImp implements MyUserDetailService{
         user.setLastname(registrationParams.getLastName());
         user.setEmail(registrationParams.getEmail());
         user.setPassword(passwordEncoder.encode(registrationParams.getPassword()));
-        //user.setRoles(Arrays.asList(new Role("ROLE_USER")));
+        user.setRoles(Set.of(new Role("ROLE_USER")));
+        user.setBalance(0d);
+        user.setTransactions(new HashSet<>());
         return userRepository.save(user);
     }
 

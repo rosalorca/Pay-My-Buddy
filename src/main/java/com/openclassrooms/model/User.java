@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
@@ -43,7 +44,6 @@ public class User {
     @Column(name = "lastname")
     private String lastname;
 
-
     @NotBlank(message = "E-mail is mandatory")
     @Column(name = "email")
     private String email;
@@ -51,7 +51,6 @@ public class User {
     @NotBlank(message = "Password is mandatory")
     @Column(name = "password")
     private String password;
-
 
     @ManyToMany(
             fetch = FetchType.LAZY,
@@ -65,27 +64,29 @@ public class User {
             joinColumns = @JoinColumn(name = "user1_id"),
             inverseJoinColumns = @JoinColumn(name = "user2_id")
     )
-    //@ToString.Exclude
-    //@JsonSerialize(using = FriendListSerializer.class)
     private List<User> contact;
 
-  /*  @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    @JoinColumn(name = "user_id")
-    private List<Account> accounts;*/
-  @ManyToMany(
+    @ManyToMany(
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
-
-
     @JoinTable(
-            name = "users_roles",
+            name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
-    private List<Role> roles;
+    @Column(name = "balance")
+    private double balance;
+
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
+    @JoinTable(name = "user_transactions",
+            joinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "transaction_id", referencedColumnName = "transaction_id")
+            })
+    private Set<Transaction> transactions;
 
 }

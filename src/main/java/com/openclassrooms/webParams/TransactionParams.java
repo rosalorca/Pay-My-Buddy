@@ -12,7 +12,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransactionParams {
-    String myEmail;
     Double amount;
     String email;
     String description;

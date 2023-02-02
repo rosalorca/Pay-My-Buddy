@@ -31,11 +31,11 @@ public class Transaction {
 
     @Column(name = "transaction_id")
     private Integer transactionId;
-    @Column(name = "account1_id")
-    private int account1Id;
+    @Column(name = "user1_id")
+    private Integer user1Id;
 
-    @Column(name = "account2_id")
-    private int account2Id;
+    @Column(name = "user2_id")
+    private Integer user2Id;
 
     @Column(name = "amount")
     private double amount;

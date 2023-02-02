@@ -7,6 +7,7 @@ import com.openclassrooms.webParams.TransactionParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -18,12 +19,13 @@ public class TransactionService {
     @Autowired
     private UserService userService;
 
-    public Transaction save(TransactionParams transactionParams) {
+    public Transaction save(Principal principal, TransactionParams transactionParams) {
         final Transaction transaction = new Transaction();
+        User user1 = userService.getUserByEmail(principal.getName());
         User user2 = userService.getUserByEmail(transactionParams.getEmail());
-        User user1 = userService.getUserByEmail(transactionParams.getMyEmail());
-        transaction.setAccount2Id(user2.getUserId());
-        transaction.setAccount1Id(user1.getUserId());
+        transaction.setUser1Id(user1.getUserId());
+        transaction.setUser2Id(user2.getUserId());
+        userService.addTransaction(user1, user2, transaction);
         transaction.setAmount(transactionParams.getAmount());
         transaction.setTransaction_description(transactionParams.getDescription());
         transaction.setTransaction_date(LocalDate.now());

@@ -42,8 +42,7 @@ public class TransactionController {
 
     @PostMapping("/transaction")
     public String registerTransaction(@ModelAttribute("transaction") TransactionParams transactionParams, Principal principal) {
-        transactionParams.setMyEmail(principal.getName());
-        transactionService.save(transactionParams);
+        transactionService.save(principal, transactionParams);
         return "redirect:/transaction?success";
     }
 

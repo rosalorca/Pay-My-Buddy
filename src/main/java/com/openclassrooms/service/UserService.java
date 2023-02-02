@@ -1,5 +1,6 @@
 package com.openclassrooms.service;
 
+import com.openclassrooms.model.Transaction;
 import com.openclassrooms.model.User;
 import com.openclassrooms.repositories.UserRepository;
 import com.openclassrooms.webParams.ContactParams;
@@ -65,22 +66,15 @@ public class UserService {
         user.getContact().remove(friendUser);
         userRepository.save(user);
     }
-  /*  public void addAccount (User user, Account account){
-        user.getAccount();
         userRepository.save(user);
     }
-    public  void removeAccount (User user, Account account){
-        user.getAccountList().remove(account);
-        userRepository.save(user);
-    }*/
-  /*  public void addTransfer (User user, Transaction transaction){
-        user.getTransactionList().add(transaction);
-        userRepository.save(user);
+
+    public void addTransaction(final User user1, final User user2, final Transaction transaction) {
+        user1.getTransactions().add(transaction);
+        userRepository.save(user1);
+        user2.getTransactions().add(transaction);
+        userRepository.save(user2);
     }
-    public void removeTransfer (User user, Transaction transaction){
-        .remove(transaction);
-        userRepository.save(user);
-    }*/
 
 
 }
