@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class MyUserDetailServiceImp implements MyUserDetailService{
+public class MyUserDetailServiceImp implements MyUserDetailService {
 
 
     @Autowired
@@ -49,6 +49,7 @@ public class MyUserDetailServiceImp implements MyUserDetailService{
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
+
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
