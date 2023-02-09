@@ -7,43 +7,30 @@
           integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 </head>
 <body>
-<!---- create  navigation bar (header) -->
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#" th:href="@{/}">Pay My Buddy </a>
-        </div>
-    </div>
-</nav>
+<div class="container justify-content-center "
+     style="margin-top: 6em; border-radius: 25px; border: 2px solid lightgray;">
+        <div class="container">
+            <span style="display: flex;">
+                <img src="images/P6_1.png" class="rounded float-start align-self-start"
+                     width=120 height="30"/>
+                    <span style="margin-left: auto;">
+                        <a class="btn btn-link active" href="/home">Home</a>
+                        <a class="btn btn-light" href="/transaction">Transaction</a>
+                        <a class="btn btn-light" href="/profile">Profile</a>
+                        <a class="btn btn-light" href="/contact">Contact</a>
+                        <a class="btn btn-light" href="/login">Log off </a>
+                    </span>
+            </span>
 
-<br>
-<br>
-<br>
-<!---- create  HTML registration form-->
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <!-- success message -->
-            <div class="form-group">
-                <a href="#" class="btn btn-outline-dark btn-lg active" role="button" aria-pressed="true">Home</a>
-                <a class="btn btn-outline-dark" href="/transaction">Transaction</a>
-                <a class="btn btn-outline-dark" href="/profile">Profile</a>
-                <a class="btn btn-outline-dark" href="/contact">Contact</a>
-            </div>
-            <br>
-            <br>
-            <h1>Welcome <span th:text="${user}"></span></h1>
+            <h1> Welcome <span th:text="${user}"></span></h1>
 
         </div>
-
-        <div class="col">
-
-            <div class="form-group">
-                <a class="btn btn-dark" href="/login">Log off !</a>
-            </div>
-        </div>
+    </form>
 
     </div>
+<footer class="mt-auto text-center">
+    <p>PayMyBuddy © 2023</p>
+</footer>
 </div>
 
 </body>

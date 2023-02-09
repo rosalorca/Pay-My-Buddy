@@ -8,81 +8,90 @@
 
 </head>
 <body>
-<!---- create  navigation bar (header) -->
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#" th:href="@{/}"> Contact </a>
+<div class="container justify-content-center "
+     style="margin-top: 6em; border-radius: 25px; border: 2px solid lightgray;">
 
+              <span style="display: flex;">
+                <img src="images/P6_1.png" class="rounded float-start align-self-start"
+                     width=120 height="30"/>
+                    <span style="margin-left: auto;">
+                        <a class="btn btn-light" href="/home">Home</a>
+                        <a class="btn btn-light" role="button" href="/transaction" >Transaction</a>
+                        <a class="btn btn-light" href="/profile">Profile</a>
+                        <a class="btn btn-link active" href="/contact">Contact</a>
+                        <a class="btn btn-light" href="/login">Log off </a>
+                    </span>
+            </span>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Contact</li>
+        </ol>
+    </nav>
+    <div class="form-group">
+
+        <form th:action="@{/contact}" method="post" th:object="${contactParams}">
+
+            <div>
+                <div class="form-group">
+
+                    <label class="control-label" for="email"></label>
+                    <select id="email" class="form-control custom-select" th:field="*{email}"
+                            required autofocus="autofocus"
+                            placeholder="Enter a email please ! ">
+                        <option th:each="user:${availableUsers}" th:value="${user.getEmail()}"
+                                th:text="${user.getEmail()}"></option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Add Connection</button>
+            </div>
+        </form>
+    </div>
+    <br>
+    <br>
+    <h1> My Contacts </h1>
+    <table class="table">
+        <thead class="table-success">
+        <tr class="headings">
+            <th class="column-title">Name</th>
+            <th class="column-title">Lastname</th>
+            <th class="column-title">Email</th>
+            <th></th>
+        </tr>
+        </thead>
+        <br>
+        <tbody>
+        <tr class="even pointer" th:each="contact:${myContacts}">
+            <td class=" " th:text="${contact.getName()}">Name</td>
+            <td class=" " th:text="${contact.getLastname()}">Lastname</td>
+            <td class=" " th:text="${contact.getEmail()}">Email</td>
+            <td><a class="btn btn-danger"
+                   th:href="@{'/contact/myFriendList/' + ${userId} + '/deleteFriend/' + ${contact.getUserId()}}">x</a>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <div th:if="${param.friendDeleteSuccess}">
+        <div class="alert alert-success"> You have successfully removed this friend from your list !</div>
+    </div>
+    <div th:if="${param.friendDeleteFailed}">
+        <div class="alert alert-danger"> Oops ! Something went wong while trying to remove this friend from your
+            list...
         </div>
     </div>
-</nav>
-
-<br>
-<br>
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="form-group">
-                <a class="btn btn-outline-dark" href="/home">Home</a>
-                <a class="btn btn-outline-dark" href="/transaction">Transaction</a>
-                <a class="btn btn-outline-dark" href="/profile">Profile</a>
-                <a href="#" class="btn btn-outline-dark btn-lg active" role="button" aria-pressed="true">Contact</a>
-            </div>
+</div>
 
 
-            <div class="form-group">
-
-                <form th:action="@{/contact}" method="post" th:object="${contactParams}">
-
-                    <div>
-                        <div class="form-group">
-                            <label class="control-label" for="email"> User </label>
-                            <select id="email" class="form-control custom-select" th:field="*{email}"
-                                    required autofocus="autofocus"
-                                    placeholder="Enter a email please ! ">
-                                <option th:each="user:${availableUsers}" th:value="${user.getEmail()}" th:text="${user.getEmail()}"></option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success">Add Connection</button>
-                    </div>
-                </form>
-            </div>
-            <br>
-            <br>
-            <h1> My Contacts </h1>
-            <table class="table">
-                <thead class="thead-dark">
-                <tr class="headings">
-                    <th class="column-title">Name</th>
-                    <th class="column-title">Lastname</th>
-                    <th class="column-title">Email</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <br>
-                <tbody>
-                <tr class="even pointer" th:each="contact:${myContacts}">
-                    <td class=" " th:text="${contact.getName()}">Name</td>
-                    <td class=" " th:text="${contact.getLastname()}">Lastname</td>
-                    <td class=" " th:text="${contact.getEmail()}">Email</td>
-                    <td><a class="btn btn-danger" th:href="@{'/contact/myFriendList/' + ${userId} + '/deleteFriend/' + ${contact.getUserId()}}">x</a></td>
-                </tr>
-                </tbody>
-
-            </table>
-
-            <div th:if="${param.friendDeleteSuccess}">
-                <div class="alert alert-success"> You have successfully removed this friend from your list !</div>
-            </div>
-            <div th:if="${param.friendDeleteFailed}">
-                <div class="alert alert-danger"> Oops ! Something went wong while trying to remove this friend from your list...</div>
-            </div>
-        </div>
-    </div>
+<footer class="mt-auto text-center">
+    <p>PayMyBuddy © 2023</p>
+</footer>
 </div>
 
 
