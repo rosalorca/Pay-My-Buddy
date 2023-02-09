@@ -60,9 +60,9 @@ public class UserService {
     }
 
     public void addTransaction(final User user1, final User user2, final Transaction transaction) {
-        user1.getTransactions().add(transaction);
+       // user1.getTransactions().add(transaction);
         userRepository.save(user1);
-        user2.getTransactions().add(transaction);
+       // user2.getTransactions().add(transaction);
         userRepository.save(user2);
     }
 

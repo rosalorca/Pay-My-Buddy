@@ -1,4 +1,4 @@
-package com.openclassrooms.paymybuddy;
+package com.openclassrooms.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
