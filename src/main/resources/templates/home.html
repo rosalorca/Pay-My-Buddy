@@ -7,27 +7,89 @@
           integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 </head>
 <body>
-<div class="container justify-content-center "
-     style="margin-top: 6em; border-radius: 25px; border: 2px solid lightgray;">
-        <div class="container">
+<div class="px-2 py-1"
+     style="margin-top: 0.5em; border-bottom: 2px solid lightgray; ">
             <span style="display: flex;">
                 <img src="images/P6_1.png" class="rounded float-start align-self-start"
-                     width=120 height="30"/>
+                     height="40"/>
                     <span style="margin-left: auto;">
                         <a class="btn btn-link active" href="/home">Home</a>
-                        <a class="btn btn-light" href="/transaction">Transaction</a>
+                        <a class="btn btn-light" href="/transaction">Transfer</a>
                         <a class="btn btn-light" href="/profile">Profile</a>
                         <a class="btn btn-light" href="/contact">Contact</a>
                         <a class="btn btn-light" href="/login">Log off </a>
                     </span>
             </span>
+</div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Home</li>
+        <li class="breadcrumb-item"><a href="/transaction">Transfer</a></li>
 
-            <h1> Welcome <span th:text="${user}"></span></h1>
+    </ol>
+</nav>
+<div class="container text-center"
+     style="margin-top: 6em; border-radius: 25px; border: 2px solid lightgray;">
+    <h1> Welcome <span th:text="${user}"></span></h1>
+    <div class="px-2 py-1"
+         style="margin-top: 0.5em; border-bottom: 2px solid lightgray; "></div>
+    <h2>My balance actuel : <span th:text="${balance}"></span></h2>
+    <div class="container justify-content-center py-1"
+         style="margin-top: 6em; border-radius: 25px; border: 2px solid lightgray;">
 
+        <div>
+            <form th:action="@{/home/addMoney}" method="post" th:object="${transactionParams}">
+                <h3> Deposit money </h3>
+                <div class="d-flex flex-row">
+                    <label class="control-label" for="amount"></label>
+                    <input id="amount" type="text" class="form-control" aria-label="Amount"
+                           autofocus="autofocus"
+                           placeholder="0 €"
+                           th:field="*{amount}" required>
+                    <button type="submit" class="btn btn-success">Add</button>
+                </div>
+            </form>
         </div>
-    </form>
 
+
+        <div th:if="${param.success}">
+            <div class="alert alert-info"> You have successfully added money to your account !</div>
+        </div>
+        <div th:if="${param.failed}">
+            <div class="alert alert-danger"> Oops ! Something went wong while trying to add the money ...
+            </div>
+        </div>
+
+        <div>
+            <form th:action="@{/home/removeMoney}" method="post" th:object="${transactionParams}">
+                <h3> Withdraw money </h3>
+                <div class="d-flex flex-row">
+                    <label class="control-label" for="amount"></label>
+                    <input id="amount" type="text" class="form-control" aria-label="Amount"
+                           autofocus="autofocus"
+                           placeholder="0 €"
+                           th:field="*{amount}" required>
+                    <button type="submit" class="btn btn-success">Remove</button>
+                </div>
+            </form>
+        </div>
+        <div th:if="${param.removeSuccess}">
+            <div class="alert alert-info"> You have successfully removed money to your account !</div>
+        </div>
+        <div th:if="${param.removeFailed}">
+            <div class="alert alert-danger"> Oops ! Something went wong while trying removed the money ...
+            </div>
+        </div>
     </div>
+
+
+</div>
+</div>
+
+
+</div>
+
+
 <footer class="mt-auto text-center">
     <p>PayMyBuddy © 2023</p>
 </footer>

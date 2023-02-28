@@ -1,8 +1,9 @@
 package com.openclassrooms.service;
 
-import com.openclassrooms.model.Transaction;
+import com.openclassrooms.model.Transfer;
 import com.openclassrooms.model.User;
 import com.openclassrooms.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-
+@Slf4j
 public class UserService {
     @Autowired
     private UserRepository userRepository;
@@ -29,6 +30,10 @@ public class UserService {
 
     public Optional<User> getUserByEmailAndPassword(String email, String password) {
         return userRepository.findByEmailAndPassword(email, password);
+    }
+    public void addTransaction(final User user1, final User user2, final Transfer transaction) {
+        userRepository.save(user1);
+        userRepository.save(user2);
     }
 
     public void createUser(User user) {
@@ -59,12 +64,28 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void addTransaction(final User user1, final User user2, final Transaction transaction) {
-       // user1.getTransactions().add(transaction);
-        userRepository.save(user1);
-       // user2.getTransactions().add(transaction);
-        userRepository.save(user2);
+    public boolean addMoney(User user, double amount) {
+        if (amount <= 0) {
+            log.error("Cannot add 0 nor negative amount {}", amount);
+            return false;
+        }
+        user.setBalance(user.getBalance() + amount);
+        userRepository.save(user);
+        return true;
     }
 
+    public boolean subtractMoney(User user, double amount) {
+        if (amount <= 0) {
+            log.error("Cannot subtract 0 nor negative amount {}", amount);
+            return false;
+        }
+        if (user.getBalance() < amount) {
+            log.error("User has not enough money to subtract {}, current balance is {}", amount, user.getBalance());
+            return false;
+        }
+        user.setBalance(user.getBalance() - amount);
+        userRepository.save(user);
+        return true;
+    }
 
 }

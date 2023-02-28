@@ -7,30 +7,32 @@
     <title>Pay My Buddy</title>
 </head>
 <body>
-<div class="container justify-content-center "
-     style="margin-top: 6em; border-radius: 25px; border: 2px solid lightgray;">
-    <form th:action="@{/transaction}" method="post" th:object="${transactionParams}">
-        <div class="container">
+<div class="px-2 py-1"
+     style="margin-top: 0.5em; border-bottom: 2px solid lightgray; ">
             <span style="display: flex;">
                 <img src="images/P6_1.png" class="rounded float-start align-self-start"
-                     width=120 height="30"/>
-
+                     height="40"/>
                     <span style="margin-left: auto;">
-                        <a class="btn btn-light" href="/home">Home</a>
-                        <a href="#" class="btn btn-link active" role="button" aria-pressed="true">Transaction</a>
+                        <a class="btn btn-link active" href="/home">Home</a>
+                        <a class="btn btn-light" href="/transaction">Transfer</a>
                         <a class="btn btn-light" href="/profile">Profile</a>
                         <a class="btn btn-light" href="/contact">Contact</a>
                         <a class="btn btn-light" href="/login">Log off </a>
                     </span>
-
             </span>
+</div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/home">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Transfer</li>
+    </ol>
+</nav>
+<div class="container justify-content-center "
+     style="margin-top: 6em; border-radius: 25px; border: 2px solid lightgray;">
+    <form th:action="@{/transaction}" method="post" th:object="${transactionParams}">
+        <div class="container">
             <div>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Transaction</li>
-                    </ol>
-                </nav>
+
                 <form th:action="@{/transaction}" method="post" th:object="${transactionParams}">
 
 
@@ -38,13 +40,16 @@
                         <h3> Send Money </h3>
                         <div class="d-flex flex-row">
                             <label class="control-label" for="email"></label>
-                            <input id="email" class="form-control" th:field="*{email}"
-                                   required autofocus="autofocus"
-                                   placeholder="Select A Connection "/>
+                            <select id="email" class="form-control custom-select" th:field="*{email}"
+                                    required autofocus="autofocus"
+                                    placeholder="Enter a email please ! ">
+                                <option th:each="user:${availableUsers}" th:value="${user.getEmail()}"
+                                        th:text="${user.getEmail()}"></option>
+                            </select>
                             <label class="control-label" for="amount"></label>
                             <input id="amount" type="text" class="form-control" aria-label="Amount"
                                    autofocus="autofocus"
-                                   placeholder="0€"
+                                   placeholder="0 €"
                                    th:field="*{amount}" required>
                             <label class="control-label" for="description"></label> <input
                                 id="description" class="form-control" th:field="*{description}"
@@ -55,49 +60,57 @@
                     </div>
                 </form>
             </div>
+            <br>
+            <div class="container justify-content-center py-1"
+                 style="margin-top: 6em; border-radius: 25px; border: 2px solid lightgray;">
+                <h2> My Transactions </h2>
+                <div class="px-2 py-1 p-2"
+                     style="margin-top: 0.5em; border-bottom: 2px solid lightgray;">
+                </div>
 
-            <h3> My Transactions </h3>
-            <table class="table table-sm">
-                <thead class="table-success">
-                <tr class="headings">
-                    <th class="column-title">Name</th>
-                    <th class="column-title">Description</th>
-                    <th class="column-title">Amount</th>
-                </tr>
-                </thead>
-                <br>
-                <tbody>
-                <tr class="even pointer" th:each="row:${rows}" id="transaction">
-                    <td class=" " th:text="${row.getName()}">Name</td>
-                    <td class=" " th:text="${row.getDescription()}">Description</td>
-                    <td class=" " th:text="${row.getAmount()}">Amount</td>
-                </tr>
-                </tbody>
-            </table>
-
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
+                <table class="table table-sm">
+                    <thead class="table-success">
+                    <tr class="headings">
+                        <th class="column-title">Connections</th>
+                        <th class="column-title">Description</th>
+                        <th class="column-title">Amount</th>
+                    </tr>
+                    </thead>
+                    <br>
+                    <tbody>
+                    <tr class="even pointer" th:each="transfer:${myTransaction}" id="transaction">
+                        <td class=" " th:text="${transfer.getEmail()}">Connections</td>
+                        <td class=" " th:text="${transfer.getDescription()}">Description</td>
+                        <td class=" " th:text="${transfer.getAmount()}">Amount</td>
+                        <td><a class="btn btn-danger"
+                               th:href="@{'/transaction/' + ${transfer.getId()} + '/delete'}">x</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div th:if="${param.success}">
+                    <div class="alert alert-info"> You have successfully transferred money to your friend account !</div>
+                </div>
+                <div th:if="${param.failed}">
+                    <div class="alert alert-danger"> Oops ! Something went wong while trying transferred the money ...
+                    </div>
+                </div>
+                <!--<div th:if="${myTransaction}" class="pagination">
+                    <ul class="nav nav-pills">
+                        <li th:each="transaction:${myTransaction}">
+                            <a th:href="@{/transaction(page=${page})}" th:text="${transaction}"
+                               th:class="${page == (operations.number + 1)} ? 'btn disabled'"></a>
+                        </li>
+                    </ul>
+                </div>-->
+            </div>
         </div>
     </form>
 </div>
+</div>
+<footer class="mt-auto text-center">
+    <p>PayMyBuddy © 2023</p>
+</footer>
 </div>
 
 </body>

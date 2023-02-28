@@ -11,9 +11,10 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransactionParams {
-    Double amount;
+public class ProfilParams {
+
+    String name;
+    String lastName;
     String email;
-    String firstName;
-    String description;
+    Double balance;
 }

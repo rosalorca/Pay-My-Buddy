@@ -77,16 +77,4 @@ public class User {
 
     @Column(name = "balance")
     private double balance;
-
-    @ManyToMany(fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
-    @JoinTable(name = "user_transactions",
-            joinColumns = {
-                    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name = "transaction_id", referencedColumnName = "transaction_id")
-            })
-    private Set<Transaction> transactions;
-
 }

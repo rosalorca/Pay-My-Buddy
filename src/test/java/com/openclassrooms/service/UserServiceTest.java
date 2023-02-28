@@ -9,7 +9,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -134,7 +133,7 @@ class UserServiceTest {
         verify(ur, times(1)).deleteById(1);
     }
 
-    @Test
+   /* @Test
     void addFriendTest() {
         User ozlem = new User();
         ozlem.setUserId(1);

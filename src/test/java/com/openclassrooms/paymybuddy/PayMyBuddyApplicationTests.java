@@ -1,5 +1,6 @@
 package com.openclassrooms.paymybuddy;
 
+import com.openclassrooms.controllers.LoginController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 class PayMyBuddyApplicationTests {
 	@Autowired
-	//private LoginController controller;
+	private LoginController controller;
 
 	@Test
 	void contextLoads() {
-		//assertThat(controller).isNotNull();
+
 
 	}
 

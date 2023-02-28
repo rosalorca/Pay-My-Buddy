@@ -24,7 +24,7 @@ import java.time.LocalDate;
 @Setter
 @ToString
 @DynamicUpdate
-public class Transaction {
+public class Transfer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,9 +44,9 @@ public class Transaction {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    private LocalDate transaction_date;
+    private LocalDate date;
 
     @Column(name = "transaction_description")
-    private String transaction_description;
+    private String description;
 
 }

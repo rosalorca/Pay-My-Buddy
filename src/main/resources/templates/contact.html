@@ -8,27 +8,30 @@
 
 </head>
 <body>
-<div class="container justify-content-center "
-     style="margin-top: 6em; border-radius: 25px; border: 2px solid lightgray;">
-
-              <span style="display: flex;">
+<div class="px-2 py-1"
+     style="margin-top: 0.5em; border-bottom: 2px solid lightgray; ">
+            <span style="display: flex;">
                 <img src="images/P6_1.png" class="rounded float-start align-self-start"
-                     width=120 height="30"/>
+                     height="40"/>
                     <span style="margin-left: auto;">
-                        <a class="btn btn-light" href="/home">Home</a>
-                        <a class="btn btn-light" role="button" href="/transaction" >Transaction</a>
+                        <a class="btn btn-link active" href="/home">Home</a>
+                        <a class="btn btn-light" href="/transaction">Transfer</a>
                         <a class="btn btn-light" href="/profile">Profile</a>
-                        <a class="btn btn-link active" href="/contact">Contact</a>
+                        <a class="btn btn-light" href="/contact">Contact</a>
                         <a class="btn btn-light" href="/login">Log off </a>
                     </span>
             </span>
+</div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/home">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Contact</li>
+    </ol>
+</nav>
+<div class="container justify-content-center "
+     style="margin-top: 6em; border-radius: 25px; border: 2px solid lightgray;">
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/home">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Contact</li>
-        </ol>
-    </nav>
+
     <div class="form-group">
 
         <form th:action="@{/contact}" method="post" th:object="${contactParams}">
@@ -54,7 +57,9 @@
     </div>
     <br>
     <br>
-    <h1> My Contacts </h1>
+    <h2> My Contacts </h2>
+    <div class="px-2 py-1"
+         style="margin-top: 0.5em; border-bottom: 2px solid lightgray; "> </div>
     <table class="table">
         <thead class="table-success">
         <tr class="headings">

@@ -19,7 +19,7 @@ public class RegistrationController {
     }
 
     @ModelAttribute("user")
-    public RegistrationParams userRegistrationDto() {
+    public RegistrationParams userRegistration() {
         return new RegistrationParams();
     }
 
@@ -29,8 +29,8 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String registerUserAccount(@ModelAttribute("user") RegistrationParams registrationDto) {
-        us.save(registrationDto);
+    public String registerUserAccount(@ModelAttribute("user") RegistrationParams registration) {
+        us.save(registration);
         return "redirect:/registration?success";
     }
 }

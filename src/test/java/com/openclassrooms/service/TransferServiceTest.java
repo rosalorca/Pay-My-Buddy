@@ -1,7 +1,7 @@
 package com.openclassrooms.service;
 
-import com.openclassrooms.model.Transaction;
-import com.openclassrooms.repositories.TransactionRepository;
+import com.openclassrooms.model.Transfer;
+import com.openclassrooms.repositories.TransferRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,58 +19,56 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class TransactionServiceTest {
+public class TransferServiceTest {
     @MockBean
-     private TransactionRepository tr;
+     private TransferRepository tr;
     @InjectMocks
-    private TransactionService ts;
+    private TransferService ts;
+
+
+    @Test
+    void executeTransaction() {
+
+
+    }
+
 
 
     @Test
     void getAllTransactionTest() {
-        Transaction transaction = new Transaction();
+        Transfer transaction = new Transfer();
         transaction.setTransactionId(1);
         when(tr.findAll()).thenReturn(List.of(transaction));
 
-        List<Transaction> result = ts.getAllTransaction();
+        List<Transfer> result = ts.getAllTransactions();
         assertEquals(1, result.size());
-
 
     }
 
     @Test
     void getTransactionsByIdTest() {
-        Transaction acte = new Transaction();
+        Transfer acte = new Transfer();
         acte.setTransactionId(1);
-        Optional<Transaction> transaction = Optional.of(acte);
+        Optional<Transfer> transaction = Optional.of(acte);
         when(tr.findById(1)).thenReturn(transaction);
 
-        Optional<Transaction> result = ts.getTransactionsById(1);
+        Optional<Transfer> result = ts.getTransactionsById(1);
         assertEquals(1, result.get().getTransactionId());
 
     }
 
-    @Test
-    void createTransactionTest() {
-        Transaction acte = new Transaction();
-        acte.setTransactionId(1);
-        acte.setAmount(600);
-        ts.createTransaction(acte);
-        verify(tr,times (1)).save(acte);
-
-    }
 
     @Test
     void updateTransactionTest() {
-        Transaction acte = new Transaction();
+        Transfer acte = new Transfer();
         acte.setTransactionId(1);
         acte.setAmount(600);
         when(tr.findById(1)).thenReturn(Optional.of(acte));
 
-        Optional<Transaction> result = Optional.of(acte);
+        Optional<Transfer> result = Optional.of(acte);
         assertEquals(1,  result.get().getTransactionId());
 
-        Transaction updateActe = new Transaction();
+        Transfer updateActe = new Transfer();
         updateActe.setTransactionId(1);
         updateActe.setAmount(200);
 
@@ -80,24 +78,17 @@ public class TransactionServiceTest {
 
     @Test
     void deleteTransactionTest() {
-        Transaction acte = new Transaction();
+        Transfer acte = new Transfer();
         acte.setTransactionId(1);
         acte.setAmount(600);
 
         when(tr.findById(1)).thenReturn(Optional.of(acte));
 
-        Optional<Transaction> result = Optional.of(acte);
+        Optional<Transfer> result = Optional.of(acte);
         assertEquals(1,  result.get().getTransactionId());
 
         ts.deleteTransaction(acte);
         verify(tr, times(1)).deleteById(1);
     }
 
-    @Test
-    void createOperationTest() {
-    }
-
-    @Test
-    void processTransactionTest() {
-    }
 }

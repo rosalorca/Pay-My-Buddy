@@ -28,7 +28,7 @@ public class Role {
     private Long id;
 
     @NotBlank(message = "Firstname is mandatory")
-    @Column(name = "firstname")
+    @Column(name = "role")
     private String name;
 
     public Role(String roleUser) {
