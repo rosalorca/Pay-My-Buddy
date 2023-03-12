@@ -88,28 +88,44 @@
                     </tr>
                     </tbody>
                 </table>
-                <div th:if="${param.success}">
-                    <div class="alert alert-info"> You have successfully transferred money to your friend account !</div>
+                <table border="1">
+                    <thead>
+                    <tr>
+                        <th th:text="#{msg.id}" />
+                        <th th:text="#{msg.name}" />
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="transfer, iStat : ${transaction}"
+                        th:style="${iStat.odd}? 'font-weight: bold;'"
+                        th:alt-title="${iStat.even}? 'even' : 'odd'">
+                        <td th:text="${transactionId}" />
+
+                    </tr>
+                    </tbody>
+                </table>
+                <div th:if="${transactionPage.totalPages > 0}" class="pagination"
+                     th:each="pageNumber : ${pageNumbers}">
+                    <a th:href="@{/listTransaction(size=${transactionPage.size}, page=${pageNumber})}"
+                       th:text=${pageNumber}
+                       th:class="${pageNumber==transactionPage.number + 1} ? active"></a>
                 </div>
-                <div th:if="${param.failed}">
-                    <div class="alert alert-danger"> Oops ! Something went wong while trying transferred the money ...
+
+                <div th:if="${param.success}">
+                    <div class="alert alert-info"> You have successfully transferred money to your friend account !
                     </div>
                 </div>
-                <!--<div th:if="${myTransaction}" class="pagination">
-                    <ul class="nav nav-pills">
-                        <li th:each="transaction:${myTransaction}">
-                            <a th:href="@{/transaction(page=${page})}" th:text="${transaction}"
-                               th:class="${page == (operations.number + 1)} ? 'btn disabled'"></a>
-                        </li>
-                    </ul>
-                </div>-->
-            </div>
-        </div>
-    </form>
+                <div th:if="${param.failed}">
+                    <div class="alert alert-danger"> Your balance is not inadequate !
+                    </div>
+                </div>
+         </div>
+     </div>
+ </form>
 </div>
 </div>
 <footer class="mt-auto text-center">
-    <p>PayMyBuddy © 2023</p>
+ <p>PayMyBuddy © 2023</p>
 </footer>
 </div>
 

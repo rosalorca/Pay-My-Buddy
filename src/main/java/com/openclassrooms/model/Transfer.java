@@ -49,4 +49,6 @@ public class Transfer {
     @Column(name = "transaction_description")
     private String description;
 
+    private Double commission;
+
 }

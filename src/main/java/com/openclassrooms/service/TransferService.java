@@ -5,10 +5,15 @@ import com.openclassrooms.model.User;
 import com.openclassrooms.repositories.TransferRepository;
 import com.openclassrooms.webParams.TransactionParams;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,32 +33,47 @@ public class TransferService {
         transaction.setAmount(transactionParams.getAmount());
         transaction.setDescription(transactionParams.getDescription());
         transaction.setDate(LocalDate.now());
+        transaction.setCommission(transaction.getAmount() * 0.05);
+        transaction.setAmount(transaction.getAmount() * 0.95);
 
-        final boolean hasSubtractedMoney = userService.subtractMoney(user1, transaction.getAmount());
+        final boolean hasSubtractedMoney = userService.subtractMoney(user1,(transaction.getAmount() + transaction.getCommission()));
         if (hasSubtractedMoney) {
             userService.addMoney(user2, transactionParams.getAmount());
             transferRepository.save(transaction);
         }
     }
 
-  /* public void commissionTransaction(TransactionParams transactionParams) {
-        double rate = 0.05;
-        double amount = 0;
-        double fare = amount * rate;
-        double bank =
-
-    }*/
 
 
     public List<Transfer> getAllTransactions() {
         return transferRepository.findAll();
     }
+    public Page<Transfer> findPaginated(Pageable pageable) {
+        List<Transfer> operations = null;
 
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Transfer> list;
 
-    public List<Transfer> getAllTransactionsOfUser(final Integer userId) {
-        return transferRepository.findAll();
+        if (operations.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, operations.size());
+            list = operations.subList(startItem, toIndex);
+        }
+
+        Page<Transfer> transactionPage = new PageImpl<Transfer>(list, PageRequest.of(currentPage, pageSize), operations.size());
+
+        return transactionPage;
+
     }
 
+
+    /**
+     * @param id
+     * @return
+     */
     public Optional<Transfer> getTransactionsById(Integer id) {
         return transferRepository.findById(id);
     }

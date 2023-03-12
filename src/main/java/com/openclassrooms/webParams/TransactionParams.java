@@ -16,4 +16,5 @@ public class TransactionParams {
     String email;
     String firstName;
     String description;
+    Double balance;
 }

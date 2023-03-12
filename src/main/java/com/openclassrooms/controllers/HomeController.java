@@ -49,7 +49,7 @@ public class HomeController {
     public String removeMoney(@ModelAttribute("transaction") TransactionParams transactionParams, Principal principal) {
         User me = userService.getUserByEmail(principal.getName());
         userService.subtractMoney(me, transactionParams.getAmount());
-        if(me.getBalance() > transactionParams.getAmount()){
+        if(me.getBalance() >= transactionParams.getAmount()){
             return "redirect:/home?removeSuccess";
         }else
         return "redirect:/home?removeFailed";
