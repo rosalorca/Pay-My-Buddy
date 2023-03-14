@@ -1,16 +1,20 @@
 # Pay_My_Buddy
 
-The Pay My Buddy application is a developing with Spring Boot Data, Spring Boot Security and Spring Boot Web.  
+The Pay My Buddy application is developed with :
+* Spring Boot Data
+* Spring Boot Security 
+* Spring Boot Web.  
 
-This is a money transfer application. It is designed for people within a company to easily transfer money to those on their friends list.
+This is a money transfer software. It is designed for people within a company to easily transfer money to those on their employees through a user list.
 
-**Transfer conditions:**
+## Transfer conditions
 
-In order for a user to transfer money to a friend, the person must be registered in the database and be on the user's friends list.
+In order for a user to transfer money to another user, the person must be registered in the database and be on the user's friends list.
 
-For each money transfer, a 5% deduction is made from the sender
+For each money transfer, a 5% fee is taken
 
-[Prerequisites]()
+## Prerequisites
+To build and run this application one must have :
 * Java 11 (Sdk 11)
 * Maven
 * Spring Boot
@@ -19,6 +23,14 @@ For each money transfer, a 5% deduction is made from the sender
 * Thymeleaf
 * IntelliJIDE  
 
+## Components used
+* Java 11 (Sdk 11)
+* Maven
+* Spring Boot
+* MySQL
+* Boostrap 4.0.0
+* Thymeleaf
+* IntelliJIDE  
 
 [1. Physical Data Model]()
 
