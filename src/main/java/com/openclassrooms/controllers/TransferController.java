@@ -51,26 +51,6 @@ public class TransferController {
         log.info("Success find all transaction");
         return new ResponseEntity<>(transactionService.getAllTransactions(), HttpStatus.OK);
     }
-  /*  @GetMapping("/myTransactions")
-    public String getAllPages(Model model){
-        return getOnePage(model, 1);
-    }
-
-    @GetMapping("/myTransactions/page/{pageNumber}")
-    public String getOnePage(Model model, @PathVariable("pageNumber") int currentPage) {
-        Page<Transfer> page = transactionService.findPage(currentPage);
-        int totalPages = page.getTotalPages();
-        long totalItems = page.getTotalElements();
-        List<Transfer> transactions = page.getContent();
-
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("totalItems", totalItems);
-        model.addAttribute("countries", transactions);
-
-        return "redirect:/myTransactions?success";
-    }*/
-
     @RequestMapping(value = "/listTransaction", method = RequestMethod.GET)
     public String listTransaction(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
         int currentPage = page.orElse(1);
@@ -90,29 +70,6 @@ public class TransferController {
 
         return "listTransaction";
     }
-
-   /* @GetMapping("/transaction")
-    public String transactionPage(Model model, Principal principal, int pageNumber) {
-        final User me = userService.getUserByEmail(principal.getName());
-        List<User> users = me.getContacts();
-        model.addAttribute("availableUsers", users);
-        List<TransactionDetails> transactionDetailsList = new ArrayList<>();
-        Pageable pageable = PageRequest.of(pageNumber - 1, 5);
-        Page<Transfer> myTransactions = transactionService.findByUserId(me.getUserId(), pageable);
-        myTransactions.forEach(transfer -> {
-            final TransactionDetails details = new TransactionDetails();
-            details.setId(transfer.getTransactionId());
-            details.setAmount(transfer.getAmount());
-            details.setDescription(transfer.getDescription());
-            Optional<User> optUser = userService.getUserById(transfer.getUser2Id());
-            optUser.ifPresent(user -> details.setEmail(user.getName()));
-            transactionDetailsList.add(details);
-        });
-        model.addAttribute("transactionParams", new TransactionParams());
-        model.addAttribute("myTransaction", transactionDetailsList);
-        return "transaction";
-    }*/
-
     @GetMapping("/transaction")
     public String transactionPage(Model model, Principal principal) {
         final User me = userService.getUserByEmail(principal.getName());

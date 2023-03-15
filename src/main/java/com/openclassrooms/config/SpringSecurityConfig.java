@@ -22,25 +22,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-
-       /* http.authorizeRequests().antMatchers(
-                        "/registration**", "/home", "/login", "/transaction", "/account", "/profile", "myFriend",
-                        "/js/**",
-                        "/css/**",
-                        "/images/**").permitAll()
-
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .logout()
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout")
-                .permitAll();*/
             http.formLogin()
                     .loginPage("/login")
                     .usernameParameter("email")
@@ -52,9 +33,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             http.logout()
                     .logoutUrl("/logout");
 
-        http.exceptionHandling().accessDeniedPage("/400");
-        http.exceptionHandling().accessDeniedPage("/403");
-        http.exceptionHandling().accessDeniedPage("/404");
     }
 
 }

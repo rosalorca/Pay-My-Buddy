@@ -9,7 +9,5 @@ import java.util.List;
 @Repository
 public interface TransferRepository extends JpaRepository<Transfer, Integer> {
     List<Transfer> findAll();
-   // Page<Transfer> findByUserId (int userId, Pageable pageable);
-
 
 }

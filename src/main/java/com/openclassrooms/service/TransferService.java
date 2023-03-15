@@ -42,9 +42,6 @@ public class TransferService {
             transferRepository.save(transaction);
         }
     }
-
-
-
     public List<Transfer> getAllTransactions() {
         return transferRepository.findAll();
     }
