@@ -73,6 +73,22 @@
                 </div>
             </form>
         </div>
+
+        <div>
+            <form th:action="@{/home/accountBank}" method="post" th:object="${transactionParams}">
+                <h3> Account Bank </h3>
+                <div class="d-flex flex-row">
+                    <label class="control-label" for="amount"></label>
+                    <input id="amount" type="text" class="form-control" aria-label="Amount"
+                           autofocus="autofocus"
+                           placeholder="0 €"
+                           th:field="*{amount}" required>
+                    <button type="submit" class="btn btn-success">Add</button>
+                    <button type="submit" class="btn btn-success">Remove</button>
+                </div>
+            </form>
+        </div>
+
         <div th:if="${param.removeSuccess}">
             <div class="alert alert-info"> You have successfully removed money to your account !</div>
         </div>

@@ -54,6 +54,12 @@ public class HomeController {
         }else
         return "redirect:/home?removeFailed";
     }
+    @PostMapping("/home/accountBank")
+    public String accountBank(@ModelAttribute("transaction") TransactionParams transactionParams, Principal principal) {
+        User me = userService.getUserByEmail(principal.getName());
+       // userService.addMoney(me, transactionParams.getAmount());
+        return "redirect:/home?success";
+    }
 
 
 }
